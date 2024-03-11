@@ -10,7 +10,7 @@ export const Logo = styled((props) => {
     <div
     // style={{ display: "flex", justifyContent: "center" }}
     >
-      <img src="/static/images/logo_default.png" height={80} />
+      {/* <img src="/static/images/tts_logo.svg" height={60} width={60} />{" "} */}
     </div>
     // <svg width="42" height="42" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg" {...other}>
     //   <path

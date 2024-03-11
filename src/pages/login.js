@@ -43,7 +43,7 @@ const Login = () => {
       signin(formik.values.email, formik.values.password)
         .then((res) => res.json())
         .then((data) => {
-          console.log(data.status)
+          console.log(data.status);
           if (data.success) {
             dispatch(
               login({
@@ -55,12 +55,10 @@ const Login = () => {
             );
             router.push("/dashboard");
           } else {
-            if (data.status != 500)
-            {
-            setErr(data.message)
-            }
-            else{
-            setErr('Something went wrong')
+            if (data.status != 500) {
+              setErr(data.message);
+            } else {
+              setErr("Something went wrong");
             }
           }
         })
@@ -80,7 +78,7 @@ const Login = () => {
   return (
     <>
       <Head>
-        <title>Dashboard | Temaribet</title>
+        <title>Dashboard | TTS</title>
       </Head>
       <Box
         component="main"

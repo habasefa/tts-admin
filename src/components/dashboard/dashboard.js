@@ -90,7 +90,7 @@ const Dashboard = () => {
   return (
     <>
       <Head>
-        <title>Dashboard | Temaribet</title>
+        <title>Dashboard | TTS</title>
       </Head>
       <Box
         component="main"

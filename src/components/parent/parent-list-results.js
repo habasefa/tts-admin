@@ -24,7 +24,7 @@ import { useRouter } from "next/router";
 import { deleteParent } from "backend-utils/parent-utils";
 import { useSelector } from "react-redux";
 import { selectUser } from "redux/userSlice";
-import { DeleteOutlined, MoreHorizSharp } from "@mui/icons-material";
+import { AddCircle, ArrowForwardIos, DeleteOutlined, MoreHorizSharp } from "@mui/icons-material";
 
 export const ParentListResults = ({ customers, searchTerm, ...rest }) => {
   const user = useSelector(selectUser);
@@ -32,7 +32,7 @@ export const ParentListResults = ({ customers, searchTerm, ...rest }) => {
   if (user) {
     var token = user.accessToken;
   }
-  const [isLoading,setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -78,38 +78,14 @@ export const ParentListResults = ({ customers, searchTerm, ...rest }) => {
     setPage(newPage);
   };
 
-  const handleDelete = (id,success) => {
-    setIsLoading(true)
-    deleteParent(token, id)
-      .then((res) => res.json())
-      .then((_data) => {
-        console.log(_data,success)
-        if (success=='SUCCESS'){
-          router.push("/parents")
-
-        }
-        else{
-          router.push("/newParent")
-        }
-        console.log(_data)
-        window.location.reload(false);
-        
-      })
-      .catch((_) => {
-        setErr("Something went wrong");
-      }).finally(
-        ()=>{
-          setIsLoading(false)
-      });
-  };
   function getDurationString(createdAt) {
-    console.log(createdAt)
-    console.log("see it ")
+    console.log(createdAt);
+    console.log("see it ");
     const createdDate = new Date(createdAt);
     const now = new Date().getTime(); // Get the current timestamp in milliseconds
     const diff = now - createdDate; // Calculate the difference between the current time and the creation time
     const seconds = Math.floor(diff / 1000); // Convert the difference to seconds
-  
+
     if (seconds < 60) {
       // If less than 1 minute has passed
       return "just now";
@@ -121,26 +97,18 @@ export const ParentListResults = ({ customers, searchTerm, ...rest }) => {
       // If less than 1 day has passed
       const hours = Math.floor(seconds / (60 * 60));
       return `${hours}h`;
-    
     } else {
       // If more than 1 day has passed
       const days = Math.floor(seconds / (60 * 60 * 24));
       return `${days}d`;
     }
   }
-  
 
   return (
     <Card {...rest}>
-      
-        <Box 
-       
-        
-        >
-          <TableContainer>
-          <Table
-          
-          >
+      <Box>
+        <TableContainer>
+          <Table>
             <TableHead>
               <TableRow>
                 <TableCell padding="checkbox">
@@ -157,21 +125,21 @@ export const ParentListResults = ({ customers, searchTerm, ...rest }) => {
                 <TableCell>Name</TableCell>
                 <TableCell>Location</TableCell>
                 <TableCell>Phone</TableCell>
-                {customers[0]?.status =='PENDING' && <TableCell>Duration</TableCell>}
-                <TableCell>Action</TableCell>
+                {customers[0]?.status == "PENDING" && <TableCell>Duration</TableCell>}
+                <TableCell>Details</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {customers
-              .filter((val) => {
-                if (searchTerm == "") {
-                  return val;
-                } else if (val.fullName.toLowerCase().includes(searchTerm.toLowerCase())) {
-                  return val;
-                }
-              })
-                .slice((limit*page), (limit)*(page+1))
-                
+                .filter((val) => {
+                  if (searchTerm == "") {
+                    return val;
+                  } else if (val.fullName.toLowerCase().includes(searchTerm.toLowerCase())) {
+                    return val;
+                  }
+                })
+                .slice(limit * page, limit * (page + 1))
+
                 .map((customer) => (
                   <TableRow
                     hover
@@ -205,60 +173,62 @@ export const ParentListResults = ({ customers, searchTerm, ...rest }) => {
                     </TableCell>
                     <TableCell>{customer.location}</TableCell>
                     <TableCell>{customer.phone1}</TableCell>
-                    
-                    {customer.status=="PENDING" && 
+
+                    {customer.status == "PENDING" && (
+                      <TableCell>
+                        <Typography variant="body2" color="textSecondary">
+                          {getDurationString(customer.createdAt)}
+                        </Typography>
+                      </TableCell>
+                    )}
+
                     <TableCell>
-                 <Typography variant="body2" color="textSecondary">
-                    {getDurationString(customer.createdAt)}
-                    </Typography>
-                    </TableCell>
-                   
-                  
-}
-                   
-                    <TableCell>
-                      { customer.status ==="PENDING" && 
-                      <IconButton
-                        color="error"
-                        aria-label="upload picture"
-                        disabled={isLoading}
-                        component="span"
-                        onClick={() => handleDelete(customer.id,customer.status)}
-                      >
-                        <DeleteOutlined />
-                      </IconButton>
-}
-                      {customer.email === null && customer.status ==="PENDING" && (
-                        <Button
-                          color="primary"
-                          variant="contained"
+                      {/* {customer.status === "PENDING" && (
+                        <IconButton
+                          color="error"
+                          aria-label="upload picture"
                           disabled={isLoading}
+                          component="span"
+                          onClick={() => handleDelete(customer.id, customer.status)}
+                        >
+                          <DeleteOutlined />
+                        </IconButton>
+                      )}
+                      {customer.email === null && customer.status === "PENDING" && (
+                        <IconButton
+                          color="success"
+                          aria-label="upload picture"
+                          disabled={isLoading}
+                          component="span"
                           onClick={() => {
-                            setIsLoading(true)
+                            setIsLoading(true);
                             router.push("/newParent/" + customer.id);
                           }}
                         >
-                          Create Account
-                        </Button>
-                      )}
+                          <AddCircle />
+                        </IconButton>
+                      )} */}
+
                       <IconButton
                         color="info"
                         aria-label="upload picture"
                         disabled={isLoading}
                         component="span"
-                        onClick={() => { setIsLoading(true);
-                          router.push("/parents/profile/" + customer.id)}}
+                        onClick={() => {
+                          setIsLoading(true);
+                          router.push("/parents/profile/" + customer.id);
+                        }}
                       >
-                        <MoreHorizSharp />
+                        <ArrowForwardIos />
                       </IconButton>
                     </TableCell>
                   </TableRow>
                 ))}
             </TableBody>
           </Table>
-          </TableContainer>
-        </Box>
-      
+        </TableContainer>
+      </Box>
+
       <TablePagination
         component="div"
         count={customers.length}

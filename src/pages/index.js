@@ -37,7 +37,7 @@ const Loading = () => {
   return (
     <>
       <Head>
-        <title>Dashboard | Temaribet</title>
+        <title>Dashboard | TTS</title>
       </Head>
       {user ? <Dashboard /> : <Login />}
     </>

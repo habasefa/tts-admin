@@ -1,4 +1,4 @@
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./userSlice";
 
 import {
@@ -12,9 +12,7 @@ import {
   REGISTER,
 } from "redux-persist";
 
-import storage from './storage'
-
-
+import storage from "./storage";
 
 const persistConfig = {
   key: "admin",

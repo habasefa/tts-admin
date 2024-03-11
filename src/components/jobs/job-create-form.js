@@ -132,7 +132,7 @@ export const JobCreateForm = (props) => {
       grade: Yup.string().max(255),
       workDays: Yup.number(),
       workHour: Yup.number(),
-      subjects: Yup.array().max(255).required("Subject is required"),
+      subjects: Yup.array().max(1000).required("Subject is required"),
     }),
     onSubmit: () => {
       setLoggingIn(true);

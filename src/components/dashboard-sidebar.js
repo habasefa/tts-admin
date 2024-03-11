@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
@@ -18,140 +18,141 @@ import { Logo } from "./logo";
 import { NavItem } from "./nav-item";
 import { useSelector } from "react-redux";
 import { selectUser } from "redux/userSlice";
+import {
+  AccountBalanceRounded,
+  AddTask,
+  AssignmentInd,
+  AssignmentIndOutlined,
+  BusinessCenter,
+  HubRounded,
+  More,
+  PersonAdd,
+  PersonAddAlt1Outlined,
+  WindowOutlined,
+} from "@mui/icons-material";
 
 const items = [
-  // {
-  //   href: "/",
-  //   icon: <ChartBarIcon fontSize="small" />,
-  //   title: "Dashboard",
-  // },
   {
     href: "/dashboard",
-    icon: <ChartBarIcon fontSize="small" />,
+    icon: <WindowOutlined />,
     title: "Home",
-    role:["SUPERADMIN","ADMINONE","ADMINTWO","ADMINTHREE"]
+    role: ["SUPERADMIN", "ADMINONE", "ADMINTWO", "ADMINTHREE"],
   },
   {
-    href: "/newTutor",
-    icon: <UsersIcon fontSize="small" />,
-    title: "New Tutors",
-    role:["SUPERADMIN","ADMINONE"]
+    href: "/",
+    icon: <More />,
+    title: "General",
+    role: ["SUPERADMIN", "ADMINONE", "ADMINTWO", "ADMINTHREE"],
+
+    items: [
+      {
+        href: "/newParent",
+        icon: <PersonAdd />,
+        title: "New Parents",
+        role: ["SUPERADMIN"],
+      },
+
+      {
+        href: "/parents",
+        icon: <AssignmentInd />,
+        title: "Active Parents",
+        role: ["SUPERADMIN", "ADMINTWO", "ADMINTHREE"],
+      },
+      {
+        href: "/newTutor",
+        icon: <PersonAddAlt1Outlined fontSize="small" />,
+        title: "New Tutors",
+        role: ["SUPERADMIN", "ADMINONE"],
+      },
+      {
+        href: "/tutors",
+        icon: <AssignmentIndOutlined fontSize="small" />,
+        title: "Active Tutors",
+        role: ["SUPERADMIN", "ADMINONE", "ADMINTWO"],
+      },
+    ],
   },
   {
-    href: "/tutors",
-    icon: <UsersIcon fontSize="small" />,
-    title: "Active Tutors",
-    role:["SUPERADMIN","ADMINONE","ADMINTWO"]
+    href: "/",
+    icon: <BusinessCenter />,
+    title: "Service",
+    role: ["SUPERADMIN", "ADMINONE", "ADMINTWO", "ADMINTHREE"],
+    items: [
+      {
+        href: "/reports",
+        icon: <UploadIcon fontSize="small" />,
+        title: "Weekly Reports",
+        role: ["SUPERADMIN", "ADMINONE"],
+      },
+      {
+        href: "/tutorFollowup",
+        icon: <UploadIcon fontSize="small" />,
+        title: "Progress Report",
+        role: ["SUPERADMIN", "ADMINONE"],
+      },
+      {
+        href: "/parentFollowup",
+        icon: <UploadIcon fontSize="small" />,
+        title: "Admin Notes",
+        role: ["SUPERADMIN", "ADMINONE"],
+      },
+    ],
   },
   {
-    href: "/newParent",
-    icon: <UsersIcon fontSize="small" />,
-    title: "New Parents",
-    role:["SUPERADMIN"]
-  },
- 
-  {
-    href: "/parents",
-    icon: <UsersIcon fontSize="small" />,
-    title: "Active Parents",
-    role:["SUPERADMIN","ADMINTWO","ADMINTHREE"]
-  },
- 
-  // {
-  //   href: "/students",
-  //   icon: <UsersIcon fontSize="small" />,
-  //   title: "Students",
-  // },
-  // {
-  //   href: "/products",
-  //   icon: <ShoppingBagIcon fontSize="small" />,
-  //   title: "Products",
-  // },
-  // {
-  //   href: "/jobs",
-  //   icon: <ShoppingBagIcon fontSize="small" />,
-  //   title: "Jobs",
-  // },
-  {
-    href: "/reports",
-    icon: <UploadIcon fontSize="small" />,
-    title: "Reports",
-    role:["SUPERADMIN","ADMINONE"]
-  },
-  {
-    href: "/tutorFollowup",
-    icon: <UploadIcon fontSize="small" />,
-    title: "Tutor Followup",
-    role:["SUPERADMIN","ADMINONE"]
-  },
-  {
-    href: "/parentFollowup",
-    icon: <UploadIcon fontSize="small" />,
-    title: "Parent Followup",
-    role:["SUPERADMIN","ADMINONE"]
-  },
-  {
-    href: "/timeSheets",
-    icon: <UploadIcon fontSize="small" />,
-    title: "TimeSheet",
-    role:["SUPERADMIN","ADMINONE"]
-  },
-  {
-    href: "/parentFinances",
-    icon: <UploadIcon fontSize="small" />,
-    title: "Parnet Finance",
-    role:["SUPERADMIN","ADMINTHREE"]
-  },
-  {
-    href: "/tutorFinances",
-    icon: <UploadIcon fontSize="small" />,
-    title: "Tutor Finance",
-    role:["SUPERADMIN","ADMINTHREE"]
+    href: "/",
+    icon: <AccountBalanceRounded />,
+    title: "Finance",
+    role: ["SUPERADMIN", "ADMINONE", "ADMINTWO", "ADMINTHREE"],
+
+    items: [
+      {
+        href: "/timeSheets",
+        icon: <UploadIcon fontSize="small" />,
+        title: "TimeSheet",
+        role: ["SUPERADMIN", "ADMINONE"],
+      },
+      {
+        href: "/parentFinances",
+        icon: <UploadIcon fontSize="small" />,
+        title: "Parent Finance",
+        role: ["SUPERADMIN", "ADMINTHREE"],
+      },
+      {
+        href: "/tutorFinances",
+        icon: <UploadIcon fontSize="small" />,
+        title: "Tutor Finance",
+        role: ["SUPERADMIN", "ADMINTHREE"],
+      },
+    ],
   },
   {
     href: "/task",
-    icon: <UploadIcon fontSize="small" />,
+    icon: <AddTask />,
     title: "Task",
-    role:["SUPERADMIN"]
+    role: ["SUPERADMIN"],
   },
-  // {
-  //   href: "/account",
-  //   icon: <UserIcon fontSize="small" />,
-  //   title: "Account",
-  // },
-  // {
-  //   href: "/settings",
-  //   icon: <CogIcon fontSize="small" />,
-  //   title: "Settings",
-  // },
-  // {
-  //   href: "/login",
-  //   icon: <LockIcon fontSize="small" />,
-  //   title: "Login",
-  // },
-  // {
-  //   href: "/register",
-  //   icon: <UserAddIcon fontSize="small" />,
-  //   title: "Register",
-  // },
-  // {
-  //   href: "/404",
-  //   icon: <XCircleIcon fontSize="small" />,
-  //   title: "Error",
-  // },
 ];
 
 export const DashboardSidebar = (props) => {
   const user = useSelector(selectUser);
   const userRole = user.user?.role;
-  console.log(userRole);
-  console.log("userRole")
   const { open, onClose } = props;
   const router = useRouter();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("xl"), {
     defaultMatches: true,
     noSsr: false,
   });
+
+  // Track the drop down section state
+  const [openDropdown, setOpenDropdown] = useState("General");
+
+  const handleDropdown = (title) => {
+    if (openDropdown === title) {
+      setOpenDropdown("");
+    } else {
+      setOpenDropdown(title);
+    }
+  };
 
   useEffect(
     () => {
@@ -193,100 +194,88 @@ export const DashboardSidebar = (props) => {
             <Box
               sx={{
                 alignItems: "center",
-                backgroundColor: "rgba(255, 255, 255, 0.04)",
+                // backgroundColor: "rgba(255, 255, 255, 0.04)",
                 cursor: "pointer",
                 display: "flex",
-                justifyContent: "space-between",
-                px: 3,
-                py: "11px",
+                flex: 1,
+                alignSelf: "center",
+                // ml: "3px",
+                py: "18px",
                 borderRadius: 1,
               }}
             >
-              <div>
-                <Typography color="inherit" variant="subtitle1">
-                  Temaribet PLC
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  flex: 1,
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <img
+                  src="/static/images/tts_logo.svg"
+                  height={60}
+                  width={60}
+                  style={{ marginRight: "10px" }}
+                />
+                <Typography color="inherit" variant="h6">
+                  Temaribet Tutoring Services
                 </Typography>
-                <Typography color="neutral.400" variant="body2">
+                {/* <Typography color="neutral.400" variant="body2">
                   Administrator : Dashboard
-                </Typography>
+                </Typography> */}
               </div>
-              <SelectorIcon
+              {/* <SelectorIcon
                 sx={{
                   color: "neutral.500",
                   width: 14,
                   height: 14,
                 }}
-              />
+              /> */}
             </Box>
           </Box>
         </div>
         <Divider
           sx={{
             borderColor: "#2D3748",
-            my: 3,
+            my: 2,
           }}
         />
         <Box sx={{ flexGrow: 1 }}>
-  {items.filter((item) => item.role.includes(userRole)).map((item) => (
-    <NavItem key={item.title} icon={item.icon} href={item.href} title={item.title} />
-  ))}
-</Box>
-        {/* <Box sx={{ flexGrow: 1 }}>
-          {items.map((item) => (
-            <NavItem key={item.title} icon={item.icon} href={item.href} title={item.title} />
-          ))}
-        </Box> */}
+          {items
+            .filter((item) => item.role?.includes(userRole))
+            .map((item) => (
+              <>
+                <NavItem
+                  key={item.title}
+                  icon={item.icon}
+                  href={item.href}
+                  title={item.title}
+                  dropDownIcon={<UploadIcon fontSize="small" />}
+                  isActive={item.title === openDropdown}
+                  isParent={item.items && item.items.length > 0}
+                  onClick={() => handleDropdown(item.title)}
+                />
+
+                {item.items && item.title === openDropdown && (
+                  <Box sx={{ pl: 2 }}>
+                    {item.items
+                      .filter((subItem) => subItem.role?.includes(userRole))
+                      .map((subItem) => (
+                        <NavItem
+                          key={subItem.title}
+                          icon={subItem.icon}
+                          href={subItem.href}
+                          title={subItem.title}
+                        />
+                      ))}
+                  </Box>
+                )}
+              </>
+            ))}
+        </Box>
         <Divider sx={{ borderColor: "#2D3748" }} />
-        {/* <Box
-          sx={{
-            px: 2,
-            py: 3
-          }}
-        >
-          <Typography
-            color="neutral.100"
-            variant="subtitle2"
-          >
-            Need more features?
-          </Typography>
-          <Typography
-            color="neutral.500"
-            variant="body2"
-          >
-            Check out our Pro solution template.
-          </Typography>
-          <Box
-            sx={{
-              display: 'flex',
-              mt: 2,
-              mx: 'auto',
-              width: '160px',
-              '& img': {
-                width: '100%'
-              }
-            }}
-          >
-            <img
-              alt="Go to pro"
-              src="/static/images/sidebar_pro.png"
-            />
-          </Box>
-          <NextLink
-            href="https://material-kit-pro-react.devias.io/"
-            passHref
-          >
-            <Button
-              color="secondary"
-              component="a"
-              endIcon={(<OpenInNewIcon />)}
-              fullWidth
-              sx={{ mt: 2 }}
-              variant="contained"
-            >
-              Pro Live Preview
-            </Button>
-          </NextLink>
-        </Box> */}
       </Box>
     </>
   );
@@ -303,7 +292,7 @@ export const DashboardSidebar = (props) => {
             width: 280,
           },
         }}
-        variant="permanent"
+        variant="persistent"
       >
         {content}
       </Drawer>

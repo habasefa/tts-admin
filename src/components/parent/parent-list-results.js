@@ -183,7 +183,7 @@ export const ParentListResults = ({ customers, searchTerm, ...rest }) => {
                     )}
 
                     <TableCell>
-                      {/* {customer.status === "PENDING" && (
+                      {customer.status === "PENDING" && (
                         <IconButton
                           color="error"
                           aria-label="upload picture"
@@ -207,7 +207,7 @@ export const ParentListResults = ({ customers, searchTerm, ...rest }) => {
                         >
                           <AddCircle />
                         </IconButton>
-                      )} */}
+                      )}
 
                       <IconButton
                         color="info"

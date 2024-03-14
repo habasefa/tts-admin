@@ -9,8 +9,8 @@ import { getTutors } from "backend-utils/tutor-utils";
 import { DashboardLayout } from "src/components/dashboard-layout";
 import { CustomerListResults } from "src/components/customer/customer-list-results";
 import { CustomerListToolbar } from "src/components/customer/customer-list-toolbar";
-import Backdrop from '@mui/material/Backdrop'
-import CircularProgress from '@mui/material/CircularProgress'
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 import { TaskListResults } from "src/components/tasks/task-list";
 import { getFailedParents, getParents } from "backend-utils/parent-utils";
 const Tasks = () => {
@@ -18,7 +18,7 @@ const Tasks = () => {
   const [tutors, setTutors] = useState([]);
   const [err, setErr] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const dispatch = useDispatch();
   if (!user) {
@@ -37,18 +37,19 @@ const Tasks = () => {
       })
       .catch((_) => {
         setErr("Something went wrong");
-      }).finally(()=>{
-        setIsLoading(false)
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }, []);
 
   return (
     <>
       <Head>
-        <title>Tasks | Temaribet</title>
+        <title>Tasks | TTS</title>
       </Head>
       <Backdrop
-        sx={{ color: '#fff', backgroundColor: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        sx={{ color: "#fff", backgroundColor: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={isLoading}
       >
         <CircularProgress color="info" />

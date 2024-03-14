@@ -6,7 +6,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 const NotFound = () => (
   <>
     <Head>
-      <title>404 | Temaribet</title>
+      <title>404 | Temaribet Tutoring Services</title>
     </Head>
     <Box
       component="main"
@@ -29,8 +29,8 @@ const NotFound = () => (
             404: The page you are looking for isn’t here
           </Typography>
           <Typography align="center" color="textPrimary" variant="subtitle2">
-            You either tried some shady route or you came here by mistake. Whichever it is, try
-            using the navigation
+            You either tried to access a restricted route or you came here by mistake. Whichever it
+            is, try using the navigation
           </Typography>
           <Box sx={{ textAlign: "center" }}>
             <img

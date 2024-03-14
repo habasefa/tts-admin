@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
-import { Box, Button, Divider, Drawer, Typography, useMediaQuery } from "@mui/material";
+import { Badge, Box, Button, Divider, Drawer, Typography, useMediaQuery } from "@mui/material";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { ChartBar as ChartBarIcon } from "../icons/chart-bar";
 import { Cog as CogIcon } from "../icons/cog";
@@ -23,11 +23,18 @@ import {
   AddTask,
   AssignmentInd,
   AssignmentIndOutlined,
+  Bolt,
   BusinessCenter,
+  CalendarViewDayTwoTone,
+  Edit,
+  Engineering,
   HubRounded,
   More,
+  Payment,
   PersonAdd,
   PersonAddAlt1Outlined,
+  PlusOne,
+  Receipt,
   WindowOutlined,
 } from "@mui/icons-material";
 
@@ -36,6 +43,12 @@ const items = [
     href: "/dashboard",
     icon: <WindowOutlined />,
     title: "Home",
+    role: ["SUPERADMIN", "ADMINONE", "ADMINTWO", "ADMINTHREE"],
+  },
+  {
+    href: "/jobs",
+    icon: <Bolt />,
+    title: "Jobs",
     role: ["SUPERADMIN", "ADMINONE", "ADMINTWO", "ADMINTHREE"],
   },
   {
@@ -72,6 +85,7 @@ const items = [
       },
     ],
   },
+
   {
     href: "/",
     icon: <BusinessCenter />,
@@ -80,19 +94,19 @@ const items = [
     items: [
       {
         href: "/reports",
-        icon: <UploadIcon fontSize="small" />,
+        icon: <CalendarViewDayTwoTone />,
         title: "Weekly Reports",
         role: ["SUPERADMIN", "ADMINONE"],
       },
       {
         href: "/tutorFollowup",
-        icon: <UploadIcon fontSize="small" />,
+        icon: <PlusOne />,
         title: "Progress Report",
         role: ["SUPERADMIN", "ADMINONE"],
       },
       {
         href: "/parentFollowup",
-        icon: <UploadIcon fontSize="small" />,
+        icon: <Edit />,
         title: "Admin Notes",
         role: ["SUPERADMIN", "ADMINONE"],
       },
@@ -107,20 +121,20 @@ const items = [
     items: [
       {
         href: "/timeSheets",
-        icon: <UploadIcon fontSize="small" />,
+        icon: <Receipt />,
         title: "TimeSheet",
         role: ["SUPERADMIN", "ADMINONE"],
       },
       {
         href: "/parentFinances",
-        icon: <UploadIcon fontSize="small" />,
-        title: "Parent Finance",
+        icon: <Payment />,
+        title: "Client",
         role: ["SUPERADMIN", "ADMINTHREE"],
       },
       {
         href: "/tutorFinances",
-        icon: <UploadIcon fontSize="small" />,
-        title: "Tutor Finance",
+        icon: <Engineering />,
+        title: "Vendor",
         role: ["SUPERADMIN", "ADMINTHREE"],
       },
     ],

@@ -34,7 +34,6 @@ import ArrowDropDownCircleOutlinedIcon from "@mui/icons-material/ArrowDropDownCi
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import ThumbDownOffAltOutlinedIcon from "@mui/icons-material/ThumbDownOffAltOutlined";
 
-
 const TFinance = () => {
   const router = useRouter();
   const { tutorId, myObject } = router.query;
@@ -73,11 +72,10 @@ const TFinance = () => {
     parsedArray.map((val) => {
       if (val.tutorId == tutorId) {
         temp.push(val);
-        if (val.statusOfMoneyPaid == "PENDING"){
-          setPendings(true)
+        if (val.statusOfMoneyPaid == "PENDING") {
+          setPendings(true);
         }
       }
-      
     });
     setListOfTimeSheet(temp);
   }, []);
@@ -86,56 +84,48 @@ const TFinance = () => {
     setSelectedImage(image);
     setOpen(true);
   };
-  const countNumberOfHOurs = ()=>{
+  const countNumberOfHOurs = () => {
     let hour = 0;
-    listOfTimeSheet.map((val,index)=>{
-      console.log(val.timestamp)
-      console.log("Hidss")
-      val.listStudent?.listStudent.map((student, index)=>{
-        hour= Number(student?.workHour) + Number(hour)
-      }
-      )
-    })
-    return hour
-  }
-  const countNumberOfMoney = ()=>{
+    listOfTimeSheet.map((val, index) => {
+      console.log(val.timestamp);
+      console.log("Hidss");
+      val.listStudent?.listStudent.map((student, index) => {
+        hour = Number(student?.workHour) + Number(hour);
+      });
+    });
+    return hour;
+  };
+  const countNumberOfMoney = () => {
     let temp = 0;
-    listOfTimeSheet.map((te,index)=>{
-      te.listStudent?.listStudent.map((val, index)=>{
-        if (val.grade == "11" || val.grade == "12")
-      {
-       
-       temp += Number(val.workHour) * 200 
-     
-       
-      }
-      else {
-        temp += Number(val.workHour) * 175
-        
-      }
-     
-      }
-      )
-    })
+    listOfTimeSheet.map((te, index) => {
+      te.listStudent?.listStudent.map((val, index) => {
+        if (val.grade == "11" || val.grade == "12") {
+          temp += Number(val.workHour) * 250;
+        } else if (val.grade == "7" || val.grade == "8" || val.grade == "9" || val.grade == "10") {
+          temp += Number(val.workHour) * 225;
+        } else {
+          temp += Number(val.workHour) * 200;
+        }
+      });
+    });
     return temp;
-  }
+  };
 
-  const handlePayment = ()=>{
-    
-    setButtonDisable(true)
-    listOfTimeSheet.map((sheet,index)=>{
-      UpdateAnImage(user.accessToken, sheet.id,{statusOfMoneyPaid:"SUCCESS"}).then((data)=>data.json())
-      .then((data)=>console.log(data))
-      .catch((error)=>{
-        console.log(error)
-
-      })
-      .finally(()=>{
-        setButtonDisable(false)
-        router.push("/tutorFinances")
-      })
-    })
-  }
+  const handlePayment = () => {
+    setButtonDisable(true);
+    listOfTimeSheet.map((sheet, index) => {
+      UpdateAnImage(user.accessToken, sheet.id, { statusOfMoneyPaid: "SUCCESS" })
+        .then((data) => data.json())
+        .then((data) => console.log(data))
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          setButtonDisable(false);
+          router.push("/tutorFinances");
+        });
+    });
+  };
 
   const handleClose = () => {
     setOpen(false);
@@ -213,50 +203,31 @@ const TFinance = () => {
             </Grid>
           </CardContent>
         </Card>
-
       </Box>
 
       {
-         <Grid container>
+        <Grid container>
           <Grid item xs={12} sm={12} md={4}>
-           <TextField
-            margin="normal"
-           disabled={true}
-           value={countNumberOfHOurs()}
-           >
-           
-           </TextField>
+            <TextField margin="normal" disabled={true} value={countNumberOfHOurs()}></TextField>
           </Grid>
           <Grid item xs={12} sm={12} md={4}>
-            
-          <TextField
-           disabled={true}
-           margin="normal"
-           value={countNumberOfMoney()}
-           >
-            
-           </TextField>
-
+            <TextField disabled={true} margin="normal" value={countNumberOfMoney()}></TextField>
           </Grid>
           <Grid item xs={12} sm={12} md={4}>
-         
-       { pendings &&  <Button
-          sx={{ mt:2 }}
-          variant="contained"
-          color="info"
-          disabled={buttonDisable}
-          
-          onClick={()=>handlePayment()}
-          >
-            Payment Made
-
-          </Button>
-}
-          
-        
+            {pendings && (
+              <Button
+                sx={{ mt: 2 }}
+                variant="contained"
+                color="info"
+                disabled={buttonDisable}
+                onClick={() => handlePayment()}
+              >
+                Payment Made
+              </Button>
+            )}
           </Grid>
-          </Grid>
-}
+        </Grid>
+      }
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Image Preview</DialogTitle>
         <DialogContent>

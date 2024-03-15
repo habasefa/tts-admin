@@ -58,8 +58,8 @@ import { data } from "autoprefixer";
 import { current } from "@reduxjs/toolkit";
 import { getTimeSheetsBasedOnMonth } from "backend-utils/tutor-utils";
 import CircularProgress from "@mui/material/CircularProgress";
-import Backdrop from '@mui/material/Backdrop';
-import MailIcon from '@mui/icons-material/Mail';
+import Backdrop from "@mui/material/Backdrop";
+import MailIcon from "@mui/icons-material/Mail";
 
 const TutorFinance = () => {
   const [value, setValue] = useState(0);
@@ -83,7 +83,7 @@ const TutorFinance = () => {
     "Dec",
   ];
   const currentDate = new Date();
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
   const currentYear = currentDate.getFullYear();
   const user = useSelector(selectUser);
   const [timeSheets, setTimeSheets] = useState(null);
@@ -97,7 +97,7 @@ const TutorFinance = () => {
   const [Week5, setFiveWeek] = useState([]);
   const [WeeklyReport, setWeeklyReport] = useState([]);
   const [totalWeeks, setTotalWeeks] = useState([]);
-  const [selectedMonthIndex, setSelectedMonthIndex] = useState(currentDate.getMonth-1);
+  const [selectedMonthIndex, setSelectedMonthIndex] = useState(currentDate.getMonth - 1);
   const [totalMonths, setTotalMonths] = useState([]);
   const [tempWeeks, setTempWeeks] = useState([]);
   const [selectYear, setSelectedYear] = useState(currentYear);
@@ -196,13 +196,12 @@ const TutorFinance = () => {
     const uniqueTutorIds = [];
     newData.map((timesheet) => {
       if (timesheet.statusOfAcceptance === "SUCCESS") {
-        if (!uniqueTutorIds.includes(timesheet.tutorId + timesheet.month )) {
+        if (!uniqueTutorIds.includes(timesheet.tutorId + timesheet.month)) {
           arrOfFilterdMonth[timesheet.month - 1].push(timesheet);
-          uniqueTutorIds.push(timesheet.tutorId + timesheet.month );
+          uniqueTutorIds.push(timesheet.tutorId + timesheet.month);
         }
-        if (timesheet.statusOfMoneyPaid =="PENDING"){
-       
-          arrOfMonthNOt[timesheet.month - 1] = Number( arrOfMonthNOt[timesheet.month - 1])+ 1;
+        if (timesheet.statusOfMoneyPaid == "PENDING") {
+          arrOfMonthNOt[timesheet.month - 1] = Number(arrOfMonthNOt[timesheet.month - 1]) + 1;
         }
 
         arrOfMonth[timesheet.month - 1].push(timesheet);
@@ -213,7 +212,6 @@ const TutorFinance = () => {
     setTotalWeeks(arrOfFilterdMonth);
     setTotalMonths(arrOfMonth);
     setMonthNotify(arrOfMonthNOt);
-    
   };
   const router = useRouter();
   if (!user) router.push("/login");
@@ -247,8 +245,6 @@ const TutorFinance = () => {
   useEffect(() => {
     let d = new Date();
 
-    
-
     getTimeSheetsBasedOnMonth(user.accessToken, selectYear)
       .then((res) => res.json())
       .then((data) => {
@@ -265,13 +261,14 @@ const TutorFinance = () => {
 
       .catch((_) => {
         setErr("Something went wrong");
-      }).finally( ()=>{
-        setIsLoading(false)
-      });;
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, [selectYear]);
   const countNotification = (tutorId) => {
     var count = 0;
-    console.log(tutorId)
+    console.log(tutorId);
     totalMonths[selectedMonthIndex]?.map((val) => {
       if (val.tutorId == tutorId) {
         if (val.statusOfMoneyPaid == "PENDING") {
@@ -279,61 +276,52 @@ const TutorFinance = () => {
         }
       }
     });
-    console.log(totalMonths,selectedMonthIndex,"file change",count )
+    console.log(totalMonths, selectedMonthIndex, "file change", count);
     return count;
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     let data = [];
-    
-    const uniqueTutorIds = [];
-        console.log(WeeklyReport);
-        totalMonths[selectedMonthIndex]?.map((timesheet,index) => {
-         
-          if (statusReport == 2 && timesheet.statusOfMoneyPaid == "SUCCESS") {
-             if (!uniqueTutorIds.includes(timesheet.tutorId)) {
-              data.push(timesheet)
-             
-              uniqueTutorIds.push(timesheet.tutorId);
-             
-            }
-            
-          } else if (statusReport == 3 && timesheet.statusOfMoneyPaid == "PENDING") {
-            if (!uniqueTutorIds.includes(timesheet.tutorId)) {
-              data.push(timesheet)
-             
-              uniqueTutorIds.push(timesheet.tutorId);
-             
-            }
-          } else if (statusReport == 4 && timesheet.statusOfMoneyPaid == "REJECTED") {
-            if (!uniqueTutorIds.includes(timesheet.tutorId)) {
-              data.push(timesheet)
-             
-              uniqueTutorIds.push(timesheet.tutorId);
-             
-            }
-          }
-        });
-      if (statusReport !=1){
-        setTempWeeks(data)
-      }
-      else{
-          if (totalWeeks[selectedMonthIndex])
-          {
-          setTempWeeks(totalWeeks[selectedMonthIndex])
-          }
-      }
- 
 
-  },[statusReport,selectedMonthIndex])
+    const uniqueTutorIds = [];
+    console.log(WeeklyReport);
+    totalMonths[selectedMonthIndex]?.map((timesheet, index) => {
+      if (statusReport == 2 && timesheet.statusOfMoneyPaid == "SUCCESS") {
+        if (!uniqueTutorIds.includes(timesheet.tutorId)) {
+          data.push(timesheet);
+
+          uniqueTutorIds.push(timesheet.tutorId);
+        }
+      } else if (statusReport == 3 && timesheet.statusOfMoneyPaid == "PENDING") {
+        if (!uniqueTutorIds.includes(timesheet.tutorId)) {
+          data.push(timesheet);
+
+          uniqueTutorIds.push(timesheet.tutorId);
+        }
+      } else if (statusReport == 4 && timesheet.statusOfMoneyPaid == "REJECTED") {
+        if (!uniqueTutorIds.includes(timesheet.tutorId)) {
+          data.push(timesheet);
+
+          uniqueTutorIds.push(timesheet.tutorId);
+        }
+      }
+    });
+    if (statusReport != 1) {
+      setTempWeeks(data);
+    } else {
+      if (totalWeeks[selectedMonthIndex]) {
+        setTempWeeks(totalWeeks[selectedMonthIndex]);
+      }
+    }
+  }, [statusReport, selectedMonthIndex]);
 
   return (
     <>
       <Head>
-        <title>Tutor Finance | Temaribet</title>
+        <title>Tutor Finance | TTS</title>
       </Head>
       <Backdrop
-        sx={{ color: '#fff', backgroundColor: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        sx={{ color: "#fff", backgroundColor: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={isLoading}
       >
         <CircularProgress color="info" />
@@ -354,11 +342,8 @@ const TutorFinance = () => {
             justifyContent="flex-end"
             alignItems="flex-end"
           >
-                      <Grid
-            marginX={2}
-            >
-
-            <Typography fontWeight="bold">Status</Typography>
+            <Grid marginX={2}>
+              <Typography fontWeight="bold">Status</Typography>
               <Select
                 labelId="demo-select-small"
                 id="demo-select-small"
@@ -373,11 +358,9 @@ const TutorFinance = () => {
                 <MenuItem value={2}>Accepted</MenuItem>
                 <MenuItem value={3}>Pending</MenuItem>
                 <MenuItem value={4}>Rejected</MenuItem>
-               
               </Select>
-            
             </Grid>
-          
+
             <Grid>
               <Typography fontWeight="bold">Choose Year</Typography>
               <Select
@@ -420,12 +403,18 @@ const TutorFinance = () => {
                     }}
                     fullWidth={true}
                     disabled={value == index}
-                    icon={<Badge badgeContent={Number(monthNotify[index])} color="secondary" > <MailIcon  color="action" /></Badge>}
+                    icon={
+                      <Badge badgeContent={Number(monthNotify[index])} color="secondary">
+                        {" "}
+                        <MailIcon color="action" />
+                      </Badge>
+                    }
                     label={`${month}`}
                     onClick={() => {
                       setPage(0);
                       setLimit(10);
-                      handleOpen(totalWeeks, totalWeeks[index], index)}}
+                      handleOpen(totalWeeks, totalWeeks[index], index);
+                    }}
                   ></Tab>
 
                   //   {/* <Button
@@ -450,100 +439,102 @@ const TutorFinance = () => {
               <TableHead>
                 <TableRow>
                   <TableCell>Name</TableCell>
-                  <TableCell align="right" >Status</TableCell>
+                  <TableCell align="right">Status</TableCell>
                   <TableCell align="right">Pendings</TableCell>
                 </TableRow>
               </TableHead>
               {loadingOpen ? (
                 <div
-                  className = "py-10"
-                  style={{ alignItems: "center", display: "flex", justifyContent: "center"}}
+                  className="py-10"
+                  style={{ alignItems: "center", display: "flex", justifyContent: "center" }}
                 >
                   <CircularProgress />
                 </div>
               ) : (
-              <TableBody>
-                {tempWeeks.length > 0 &&
-                  tempWeeks
-                  
-                    .filter((val) => {
-                      if (searchTerm == "") {
-                        return val;
-                      } else if (
-                        val.tutor?.fullName.toLowerCase().includes(searchTerm.toLowerCase())
-                      ) {
-                        return val;
-                      }
-                    })
-                    .slice((limit*page), (limit)*(page+1))
+                <TableBody>
+                  {tempWeeks.length > 0 &&
+                    tempWeeks
 
-                    .map((timeSheets, index) => {
-                      return (
-                        <>
-                          <TableRow
-                            key={index}
-                            sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                          >
-                            <TableCell component="th" scope="row">
-                              <Box
-                                sx={{
-                                  alignItems: "center",
-                                  display: "flex",
-                                }}
-                              >
-                                <Avatar
-                                  // src={customer.avatarUrl}
-                                  sx={{ mr: 2 }}
+                      .filter((val) => {
+                        if (searchTerm == "") {
+                          return val;
+                        } else if (
+                          val.tutor?.fullName.toLowerCase().includes(searchTerm.toLowerCase())
+                        ) {
+                          return val;
+                        }
+                      })
+                      .slice(limit * page, limit * (page + 1))
+
+                      .map((timeSheets, index) => {
+                        return (
+                          <>
+                            <TableRow
+                              key={index}
+                              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                            >
+                              <TableCell component="th" scope="row">
+                                <Box
+                                  sx={{
+                                    alignItems: "center",
+                                    display: "flex",
+                                  }}
                                 >
-                                  {getInitials(timeSheets.tutor?.fullName)}
-                                </Avatar>
-                                <Typography color="textPrimary" variant="body1">
-                                  {timeSheets.tutor?.fullName}
-                                </Typography>
-                              </Box>
-                            </TableCell>
+                                  <Avatar
+                                    // src={customer.avatarUrl}
+                                    sx={{ mr: 2 }}
+                                  >
+                                    {getInitials(timeSheets.tutor?.fullName)}
+                                  </Avatar>
+                                  <Typography color="textPrimary" variant="body1">
+                                    {timeSheets.tutor?.fullName}
+                                  </Typography>
+                                </Box>
+                              </TableCell>
 
-                            <TableCell align="right">
-                              <IconButton
-                                color="info"
-                                aria-label="upload picture"
-                                component="span"
-                                onClick={() =>
-                                  router.push({
-                                    pathname: "/tutorFinance",
-                                    query: {
-                                      tutorId: timeSheets.tutorId,
-                                      myObject: JSON.stringify(totalMonths[selectedMonthIndex]),
-                                    },
-                                  })
-                                }
-                              >
-                                <MoreHorizSharp />
-                              </IconButton>
-                            </TableCell>
-                            <TableCell align="right">{countNotification(timeSheets?.tutor?.id)}</TableCell>
-                          </TableRow>
-                        </>
-                      );
-                    })}
-                {WeeklyReport.length === 0 && (
-                  <Typography justifyContent="center" align="center" p={2}>
-                    NO TUTOR FINANCE  FOR THIS MONTH YET
-                  </Typography>
-                )}
-              </TableBody>
+                              <TableCell align="right">
+                                <IconButton
+                                  color="info"
+                                  aria-label="upload picture"
+                                  component="span"
+                                  onClick={() =>
+                                    router.push({
+                                      pathname: "/tutorFinance",
+                                      query: {
+                                        tutorId: timeSheets.tutorId,
+                                        myObject: JSON.stringify(totalMonths[selectedMonthIndex]),
+                                      },
+                                    })
+                                  }
+                                >
+                                  <MoreHorizSharp />
+                                </IconButton>
+                              </TableCell>
+                              <TableCell align="right">
+                                {countNotification(timeSheets?.tutor?.id)}
+                              </TableCell>
+                            </TableRow>
+                          </>
+                        );
+                      })}
+                  {WeeklyReport.length === 0 && (
+                    <Typography justifyContent="center" align="center" p={2}>
+                      NO TUTOR FINANCE FOR THIS MONTH YET
+                    </Typography>
+                  )}
+                </TableBody>
               )}
             </Table>
           </TableContainer>
           <TablePagination
-        component="div"
-        count={tempWeeks.length}
-        onPageChange={handlePageChange}
-        onRowsPerPageChange={handleLimitChange}
-        page={page}
-        rowsPerPage={limit}
-        rowsPerPageOptions={[5, 10, 25]}
-      />
+            component="div"
+            count={tempWeeks.length}
+            onPageChange={handlePageChange}
+            onRowsPerPageChange={handleLimitChange}
+            page={page}
+            rowsPerPage={limit}
+            rowsPerPageOptions={[5, 10, 25]}
+          />
         </Container>
       </Box>
     </>

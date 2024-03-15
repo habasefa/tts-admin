@@ -52,15 +52,21 @@ import ListItemText from "@mui/material/ListItemText";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import CommentIcon from "@mui/icons-material/Comment";
-import { DeleteOutlined, MoreHorizSharp } from "@mui/icons-material";
+import {
+  ArrowForward,
+  ArrowForwardIos,
+  DeleteOutlined,
+  Forward,
+  MoreHorizSharp,
+} from "@mui/icons-material";
 import { getInitials } from "src/utils/get-initials";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { data } from "autoprefixer";
 import { current } from "@reduxjs/toolkit";
 import { getTimeSheetsBasedOnMonth } from "backend-utils/tutor-utils";
-import MailIcon from '@mui/icons-material/Mail';
-import Backdrop from '@mui/material/Backdrop'
+import MailIcon from "@mui/icons-material/Mail";
+import Backdrop from "@mui/material/Backdrop";
 const TimeSheets = () => {
   const [value, setValue] = useState(0);
   const [loadingYear, setLoadingYear] = useState(false);
@@ -103,38 +109,32 @@ const TimeSheets = () => {
   const [tempWeeks, setTempWeeks] = useState([]);
   const [selectYear, setSelectedYear] = useState(currentYear);
   const [statusReport, setStatusReport] = useState(1);
-  const [countofView,setCountOfView] = useState(0);
+  const [countofView, setCountOfView] = useState(0);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
-  
+
   const years = [];
-  
+
   for (let year = 2023; year <= 2050; year++) {
     years.push(year);
   }
 
   const d = new Date();
   const [yearIndex, setyearIndex] = useState(d.getFullYear());
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
   const handleOpen = (truthValue, weekRepo = [], index) => {
-    console.log("finsed");
-    console.log(truthValue);
-    console.log(weekRepo);
     setLoadingOpen(true);
-   
-   
+
     setWeeklyReport(weekRepo);
     setTempWeeks(weekRepo);
     setSelectedMonthIndex(index);
-    console.log(loadingOpen, "segermer");
   };
   // useEffect(() => {
-   
+
   //   console.log(loadingOpen, "sealke");
   // }, [WeeklyReport]);
   useEffect(() => {
     setLoadingOpen(false);
-    console.log(loadingOpen, "sealke");
   }, [tempWeeks]);
 
   const handleLimitChange = (event) => {
@@ -146,9 +146,8 @@ const TimeSheets = () => {
   };
   useEffect(() => {
     handleOpen(totalWeeks, totalWeeks[selectedMonthIndex], selectedMonthIndex);
-
-    console.log(loadingOpen, "sealke, ks");
   }, [totalWeeks]);
+
   const getDay = (date) => {
     // get day number from 0 (monday) to 6 (sunday)
     let day = date.getDay();
@@ -157,11 +156,9 @@ const TimeSheets = () => {
   };
   const createCalander = async (year, month, newData) => {
     let data = [];
-    console.log(newData, "createCalander");
     let mon = month - 1;
     let d = new Date(year, mon);
     let temp = [];
-    console.log(d.getMonth(), mon);
     while (d.getMonth() == mon) {
       temp.push(d.getDate());
       if (getDay(d) % 7 == 6) {
@@ -189,29 +186,21 @@ const TimeSheets = () => {
     const arrOfMonthNOt = Array.from({ length: 12 }, () => [0]);
 
     const uniqueTutorIds = [];
-    console.log(newData, "newData");
     newData.map((timesheet) => {
-      // console.log(timeSheets?.tutorId,"timeSheets")
       if (!uniqueTutorIds.includes(timesheet.tutorId + timesheet.month)) {
         arrOfFilterdMonth[timesheet.month - 1].push(timesheet);
-       
+
         uniqueTutorIds.push(timesheet.tutorId + timesheet.month);
-       
       }
-      console.log(timesheet,"new")
-      if (timesheet.statusOfAcceptance =="PENDING"){
-        console.log('hidds')
-        arrOfMonthNOt[timesheet.month - 1] = Number( arrOfMonthNOt[timesheet.month - 1])+ 1;
+      if (timesheet.statusOfAcceptance == "PENDING") {
+        arrOfMonthNOt[timesheet.month - 1] = Number(arrOfMonthNOt[timesheet.month - 1]) + 1;
       }
       arrOfMonth[timesheet.month - 1].push(timesheet);
     });
-    console.log(arrOfFilterdMonth,"filtered");
-    console.log(arrOfMonthNOt,"file");
- 
+
     setTotalWeeks(arrOfFilterdMonth);
     setTotalMonths(arrOfMonth);
     setMonthNotify(arrOfMonthNOt);
-    console.log("finished");
   };
   const router = useRouter();
   if (!user) router.push("/login");
@@ -219,7 +208,6 @@ const TimeSheets = () => {
   //   let d = new Date();
   //   let month = d.getMonth() + 1;
   //   let year = 2023;
-    
 
   //   getTimeSheetsBasedOnMonth(user.accessToken, selectYear)
   //     .then((res) => res.json())
@@ -240,7 +228,7 @@ const TimeSheets = () => {
   //     }).finally(()=>{
   //       setIsLoading(false)
   //       handleOpen(totalWeeks, totalWeeks[selectedMonthIndex], selectedMonthIndex)
-        
+
   //     });
   // }, []);
 
@@ -254,7 +242,6 @@ const TimeSheets = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
-          console.log(data.timeSheets, "data success");
           setTimeSheets(data.timeSheets);
           return data.timeSheets;
         } else {
@@ -262,13 +249,16 @@ const TimeSheets = () => {
           return [];
         }
       })
-      .then((newData) => assignTimeSheetWithValidMonth(newData))
+      .then((newData) => {
+        console.log("New list of tutors with timesheet: ", newData);
+        return assignTimeSheetWithValidMonth(newData);
+      })
 
       .catch((_) => {
         setErr("Something went wrong");
       })
-      .finally( ()=>{
-        setIsLoading(false)
+      .finally(() => {
+        setIsLoading(false);
       });
   }, [selectYear]);
 
@@ -295,7 +285,6 @@ const TimeSheets = () => {
 
   const countNotification = (tutorId) => {
     var count = 0;
-    console.log(tutorId)
     totalMonths[selectedMonthIndex]?.map((val) => {
       if (val.tutorId == tutorId) {
         if (val.statusOfAcceptance == "PENDING") {
@@ -303,60 +292,49 @@ const TimeSheets = () => {
         }
       }
     });
-    console.log(totalMonths,selectedMonthIndex,"file change",count )
     return count;
   };
-  useEffect(()=>{
+  useEffect(() => {
     let data = [];
-    
-    const uniqueTutorIds = [];
-        console.log(WeeklyReport);
-        totalMonths[selectedMonthIndex]?.map((timesheet,index) => {
-         
-          if (statusReport == 2 && timesheet.statusOfAcceptance == "SUCCESS") {
-             if (!uniqueTutorIds.includes(timesheet.tutorId)) {
-              data.push(timesheet)
-             
-              uniqueTutorIds.push(timesheet.tutorId);
-             
-            }
-            
-          } else if (statusReport == 3 && timesheet.statusOfAcceptance == "PENDING") {
-            if (!uniqueTutorIds.includes(timesheet.tutorId)) {
-              data.push(timesheet)
-             
-              uniqueTutorIds.push(timesheet.tutorId);
-             
-            }
-          } else if (statusReport == 4 && timesheet.statusOfAcceptance == "REJECTED") {
-            if (!uniqueTutorIds.includes(timesheet.tutorId)) {
-              data.push(timesheet)
-             
-              uniqueTutorIds.push(timesheet.tutorId);
-             
-            }
-          }
-        });
-      if (statusReport !=1){
-        setTempWeeks(data)
-      }
-      else{
-          if (totalWeeks[selectedMonthIndex])
-          {
-          setTempWeeks(totalWeeks[selectedMonthIndex])
-          }
-      }
- 
 
-  },[statusReport,selectedMonthIndex])
-  
+    const uniqueTutorIds = [];
+    totalMonths[selectedMonthIndex]?.map((timesheet, index) => {
+      if (statusReport == 2 && timesheet.statusOfAcceptance == "SUCCESS") {
+        if (!uniqueTutorIds.includes(timesheet.tutorId)) {
+          data.push(timesheet);
+
+          uniqueTutorIds.push(timesheet.tutorId);
+        }
+      } else if (statusReport == 3 && timesheet.statusOfAcceptance == "PENDING") {
+        if (!uniqueTutorIds.includes(timesheet.tutorId)) {
+          data.push(timesheet);
+
+          uniqueTutorIds.push(timesheet.tutorId);
+        }
+      } else if (statusReport == 4 && timesheet.statusOfAcceptance == "REJECTED") {
+        if (!uniqueTutorIds.includes(timesheet.tutorId)) {
+          data.push(timesheet);
+
+          uniqueTutorIds.push(timesheet.tutorId);
+        }
+      }
+    });
+    if (statusReport != 1) {
+      setTempWeeks(data);
+    } else {
+      if (totalWeeks[selectedMonthIndex]) {
+        setTempWeeks(totalWeeks[selectedMonthIndex]);
+      }
+    }
+  }, [statusReport, selectedMonthIndex]);
+
   return (
     <>
       <Head>
-        <title>TimeSheet | Temaribet</title>
+        <title>TimeSheet | TTS</title>
       </Head>
       <Backdrop
-        sx={{ color: '#fff', backgroundColor: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        sx={{ color: "#fff", backgroundColor: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={isLoading}
       >
         <CircularProgress color="info" />
@@ -377,11 +355,8 @@ const TimeSheets = () => {
             justifyContent="flex-end"
             alignItems="flex-end"
           >
-            <Grid
-            marginX={2}
-            >
-
-            <Typography fontWeight="bold">Status</Typography>
+            <Grid marginX={2}>
+              <Typography fontWeight="bold">Status</Typography>
               <Select
                 labelId="demo-select-small"
                 id="demo-select-small"
@@ -396,9 +371,7 @@ const TimeSheets = () => {
                 <MenuItem value={2}>Accepted</MenuItem>
                 <MenuItem value={3}>Pending</MenuItem>
                 <MenuItem value={4}>Rejected</MenuItem>
-               
               </Select>
-            
             </Grid>
             <Grid>
               <Typography fontWeight="bold">Choose Year</Typography>
@@ -440,18 +413,25 @@ const TimeSheets = () => {
                     sx={{
                       paddingX: 4,
                     }}
-                    icon={<Badge badgeContent={Number(monthNotify[index])} color="secondary" > <MailIcon  color="action" /></Badge>}
+                    icon={
+                      <Badge badgeContent={Number(monthNotify[index])} color="secondary">
+                        {" "}
+                        <MailIcon color="action" />
+                      </Badge>
+                    }
                     fullWidth={true}
                     disabled={value == index}
                     label={`${month} `}
                     onClick={() => {
                       if (selectedMonthIndex != index) {
-                        setPage(0)
-                      setLimit(10)
+                        setPage(0);
+                        setLimit(10);
                         handleOpen(totalWeeks, totalWeeks[index], index);
                       }
                     }}
-                  >  </Tab>
+                  >
+                    {" "}
+                  </Tab>
 
                   //   {/* <Button
                   //   fullWidth
@@ -476,14 +456,19 @@ const TimeSheets = () => {
               <TableHead>
                 <TableRow>
                   <TableCell>Name</TableCell>
+                  <TableCell align="right">Pendings </TableCell>
                   <TableCell align="right">Detail</TableCell>
-                  <TableCell  align="right">Pendings </TableCell>
                 </TableRow>
               </TableHead>
               {loadingOpen ? (
                 <div
                   className="py-10"
-                  style={{ alignItems: "center", display: "flex", justifyContent: "center" }}
+                  style={{
+                    alignItems: "center",
+                    display: "flex",
+                    flex: 1,
+                    justifyContent: "center",
+                  }}
                 >
                   <CircularProgress />
                 </div>
@@ -491,7 +476,7 @@ const TimeSheets = () => {
                 <TableBody>
                   {tempWeeks.length > 0 &&
                     tempWeeks
-                
+
                       .filter((val) => {
                         if (searchTerm == "") {
                           return val;
@@ -501,7 +486,7 @@ const TimeSheets = () => {
                           return val;
                         }
                       })
-                      .slice((limit*page), (limit)*(page+1))
+                      .slice(limit * page, limit * (page + 1))
                       .map((timeSheets, index) => {
                         return (
                           <>
@@ -517,7 +502,7 @@ const TimeSheets = () => {
                                   }}
                                 >
                                   <Avatar
-                                    // src={customer.avatarUrl}
+                                    //  src={timeSheets.cloudinary_id}
                                     sx={{ mr: 2 }}
                                   >
                                     {getInitials(timeSheets.tutor?.fullName)}
@@ -528,6 +513,9 @@ const TimeSheets = () => {
                                 </Box>
                               </TableCell>
 
+                              <TableCell align="right">
+                                {countNotification(timeSheets?.tutor?.id)}
+                              </TableCell>
                               <TableCell align="right">
                                 <IconButton
                                   color="info"
@@ -543,10 +531,9 @@ const TimeSheets = () => {
                                     })
                                   }
                                 >
-                                  <MoreHorizSharp />
+                                  <ArrowForwardIos />
                                 </IconButton>
                               </TableCell>
-                              <TableCell align="right">{countNotification(timeSheets?.tutor?.id)}</TableCell>
                             </TableRow>
                           </>
                         );
@@ -561,14 +548,14 @@ const TimeSheets = () => {
             </Table>
           </TableContainer>
           <TablePagination
-        component="div"
-        count={tempWeeks.length}
-        onPageChange={handlePageChange}
-        onRowsPerPageChange={handleLimitChange}
-        page={page}
-        rowsPerPage={limit}
-        rowsPerPageOptions={[5, 10, 25]}
-      />
+            component="div"
+            count={tempWeeks.length}
+            onPageChange={handlePageChange}
+            onRowsPerPageChange={handleLimitChange}
+            page={page}
+            rowsPerPage={limit}
+            rowsPerPageOptions={[5, 10, 25]}
+          />
         </Container>
       </Box>
     </>

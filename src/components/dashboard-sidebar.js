@@ -149,7 +149,7 @@ const items = [
 
 export const DashboardSidebar = (props) => {
   const user = useSelector(selectUser);
-  const userRole = user.user?.role;
+  const userRole = user?.user?.role;
   const { open, onClose } = props;
   const router = useRouter();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("xl"), {

@@ -14,7 +14,7 @@ Below is a screenshot of the homepage of Temaribet:
 
 - **Frontend Framework**: [Next.js](https://nextjs.org/)
 - **Styling**: [TailwindCSS](https://tailwindcss.com/)
-- **Database**: [Firebase](https://firebase.google.com/)
+<!-- - **Database**: [Firebase](https://firebase.google.com/) -->
 - **State Management**: [Redux](https://redux.js.org/)
 
 ---

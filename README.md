@@ -53,13 +53,10 @@ Below is a screenshot of the homepage of Temaribet:
 ### Steps
 
 1. **Clone the repository**:
+
    ```bash
    git clone https://github.com/habasefa/tts-admin.git
    ```
-
-````
-
-# Setup Instructions
 
 2. **Navigate to the project directory**:
 
@@ -80,4 +77,7 @@ Below is a screenshot of the homepage of Temaribet:
 
 5. **Access the application**:
    The application will be accessible at [http://localhost:3000](http://localhost:3000).
-````
+
+```
+
+```

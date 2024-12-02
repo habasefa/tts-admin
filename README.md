@@ -12,10 +12,16 @@ Below is a screenshot of the homepage of Temaribet:
 
 ## Tech Stack
 
-- **Frontend Framework**: [Next.js](https://nextjs.org/)
-- **Styling**: [TailwindCSS](https://tailwindcss.com/)
-<!-- - **Database**: [Firebase](https://firebase.google.com/) -->
-- **State Management**: [Redux](https://redux.js.org/)
+- **Frontend Framework**: [React](https://reactjs.org/) and [Next.js](https://nextjs.org/)
+- **UI Framework**: [Material-UI](https://mui.com/) (`@mui/material`, `@mui/icons-material`, `@mui/lab`, `@mui/styles`)
+- **State Management**: [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/), [React-Redux](https://react-redux.js.org/), [Redux Persist](https://github.com/rt2zz/redux-persist)
+- **Form Handling**: [Formik](https://formik.org/) and [Yup](https://github.com/jquense/yup)
+- **Routing**: [React Router](https://reactrouter.com/) and [History](https://github.com/ReactTraining/history)
+- **Charts**: [Chart.js](https://www.chartjs.org/) and [React-Chartjs-2](https://github.com/reactchartjs/react-chart.js)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/), [PostCSS](https://postcss.org/), [Emotion](https://emotion.sh/docs/introduction)
+- **Utilities**: [date-fns](https://date-fns.org/), [moment](https://momentjs.com/), [uuid](https://github.com/uuidjs/uuid), [jwt-decode](https://github.com/jwt-decode/jwt-decode)
+- **Development Tools**: [ESLint](https://eslint.org/), [NProgress](https://github.com/rstacruz/nprogress), [React Perfect Scrollbar](https://github.com/utsuboco/react-perfect-scrollbar)
+- **Email Services**: [EmailJS](https://www.emailjs.com/)
 
 ---
 
@@ -41,6 +47,33 @@ Below is a screenshot of the homepage of Temaribet:
 │   ├── utils/              # Utility functions
 │   └── __mocks__/          # Mock data for testing
 ├── tailwind.config.js      # Tailwind CSS configuration
+```
+
+## Archetecture Diagram
+
+```mermaid
+graph TD;
+    A[public/] --> B[Static assets like images and icons]
+    A[redux/] --> C[Redux slices and store setup]
+    A[styles/] --> D[Global and component-specific styles]
+    A[themes/] --> E[Theme configuration for light/dark modes]
+    A[utils/] --> F[Helper functions for Firebase, and formatting]
+    A[views/] --> G[High-level views for different pages or workflows]
+    G --> H[completeProfile/ - Complete profile page components and logic]
+    A[README.md] --> I[Documentation]
+
+
+
+flowchart TD
+    public/ -->|Contains| Static_Assets[Static assets like images and icons]
+    redux/ -->|Contains| Redux_Setup[Redux slices and store setup]
+    styles/ -->|Contains| Styles[Global and component-specific styles]
+    themes/ -->|Contains| Theme_Config[Theme configuration for light/dark modes]
+    utils/ -->|Contains| Helper_Functions[Helper functions for Firebase, and formatting]
+    views/ -->|Contains| High_Level_Views[High-level views for different pages or workflows]
+    High_Level_Views -->|Contains| Complete_Profile[Complete profile page components and logic]
+    README.md -->|Contains| Documentation
+
 ```
 
 ## Setup Instructions

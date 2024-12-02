@@ -49,33 +49,6 @@ Below is a screenshot of the homepage of Temaribet:
 ├── tailwind.config.js      # Tailwind CSS configuration
 ```
 
-## Archetecture Diagram
-
-```mermaid
-graph TD;
-    A[public/] --> B[Static assets like images and icons]
-    A[redux/] --> C[Redux slices and store setup]
-    A[styles/] --> D[Global and component-specific styles]
-    A[themes/] --> E[Theme configuration for light/dark modes]
-    A[utils/] --> F[Helper functions for Firebase, and formatting]
-    A[views/] --> G[High-level views for different pages or workflows]
-    G --> H[completeProfile/ - Complete profile page components and logic]
-    A[README.md] --> I[Documentation]
-
-
-
-flowchart TD
-    public/ -->|Contains| Static_Assets[Static assets like images and icons]
-    redux/ -->|Contains| Redux_Setup[Redux slices and store setup]
-    styles/ -->|Contains| Styles[Global and component-specific styles]
-    themes/ -->|Contains| Theme_Config[Theme configuration for light/dark modes]
-    utils/ -->|Contains| Helper_Functions[Helper functions for Firebase, and formatting]
-    views/ -->|Contains| High_Level_Views[High-level views for different pages or workflows]
-    High_Level_Views -->|Contains| Complete_Profile[Complete profile page components and logic]
-    README.md -->|Contains| Documentation
-
-```
-
 ## Setup Instructions
 
 ### Prerequisites

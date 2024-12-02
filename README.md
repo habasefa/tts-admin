@@ -61,7 +61,7 @@ Below is a screenshot of the homepage of Temaribet:
 2. **Navigate to the project directory**:
 
    ```bash
-   cd tts
+   cd tts-admin
    ```
 
 3. **Install dependencies**:

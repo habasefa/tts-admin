@@ -1,0 +1,153 @@
+{
+  "success": true,
+  "message": "Report found",
+  "report": {
+    "id": "674c72c7595c80884ded9527",
+    "totalDays": "4",
+    "totalHours": "8",
+    "month": "12",
+    "week": "1",
+    "feedback": "Very good ",
+    "pastChallenge": "No challenge yet",
+    "futureChallenge": "Nothing ",
+    "helpChallenge": "Nothing ",
+    "dressing": "bad",
+    "grooming": "10",
+    "hygiene": "10",
+    "punctuality": "10",
+    "manner": "10",
+    "elequence": "10",
+    "reports": {
+      "inputFields": [
+        {
+          "name": "Merwan",
+          "subjects": [
+            {
+              "subject": "Environment science ",
+              "chapters": [
+                {
+                  "chapter": "3",
+                  "topics": [
+                    {
+                      "topic": "Weather and climate ",
+                      "understanding": "Very good "
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "subject": "Amharic ",
+              "chapters": [
+                {
+                  "chapter": " 2",
+                  "topics": [
+                    {
+                      "topic": "Creating words ",
+                      "understanding": "Excellent "
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "subject": "Reading ",
+              "chapters": [
+                {
+                  "chapter": " 2",
+                  "topics": [
+                    {
+                      "topic": " Reading complicated words ",
+                      "understanding": "Good"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "assesments": [
+            {
+              "course": "",
+              "units": [
+                {
+                  "unit": "2",
+                  "types": [
+                    {
+                      "typ": "",
+                      "result": "20/20",
+                      "type": "Choose and workout "
+                    }
+                  ]
+                }
+              ],
+              "assesment": "Math"
+            }
+          ]
+        }
+      ]
+    },
+    "reportDate": 1,
+    "reportMonth": 12,
+    "reportYear": 2024,
+    "tutorId": "66ef2dfd76b83076747f2d10",
+    "parentId": "670498077a323b5dc24accf6",
+    "tutorName": "REDEIT ABEBE ",
+    "rate": 4,
+    "status": "SUCCESS",
+    "view": "PENDING",
+    "comment": "bad",
+    "viewUrl": "http://localhost:3000/report/view/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXBvcnRJZCI6IjY3NGM3MmM3NTk1YzgwODg0ZGVkOTUyNyIsImlhdCI6MTczMzUxMjU5Nn0.QrygiV4uX-csi8BbjBK1S5jXqCAeIrKcx0KhyvUsYv8",
+    "tutor": {
+      "id": "66ef2dfd76b83076747f2d10",
+      "fullName": "REDEIT ABEBE ",
+      "email": "reduab28@gmail.com",
+      "phone": "0931217520",
+      "gender": "Female",
+      "age": 22,
+      "acadStatus": "underGraduate",
+      "UEE": 370,
+      "cGPA": 3.5,
+      "field": "Business management ",
+      "college": "Hope Enterprise university college ",
+      "volenteerism": "No",
+      "prevTutored": true,
+      "prevTutorGrades": ["elementary"],
+      "prevTutorExperience": "Have have seen a lot  of changes on my p previous studnets it's was easier because of my communicative  skill ",
+      "idealTutor": "Guider ",
+      "preferredBank": "CBE",
+      "bankAccountNo": "1000405599442",
+      "contactName": "Eden tekeste ",
+      "telegramUsername": "@l_Serendipity",
+      "contactPhone1": "(096) 678-3116",
+      "contactPhone2": "+251 93 882 7573",
+      "contactEmail": "edutekeste6@gmail.com",
+      "workDays": 3,
+      "workHour": 2,
+      "experience": null,
+      "subjects": ["English", "Mathematics", "Amharic", "Art"],
+      "location": "Alembank, bethel, ayertena ",
+      "essay": "\nEducation has always played a pivotal role in my life. I graduated from Yetewld Tesfa School, where I developed a deep appreciation for learning, particularly in subjects like history and English. Among my most cherished experiences was being part of the English Club. As a leader, I managed and presented various programs every Wednesday morning before the national anthem, creating engaging concepts that entertained and educated my peers. This role not only honed my organizational skills but also reinforced my passion for English and communication.\n\nThroughout my educational journey, I have recognized the importance of effective communication. I take pride in my English-speaking abilities, which I describe as proficient. I consider myself an attentive listener and a confident speaker, qualities I have developed through more than three years of experience in various settings. Whether participating in discussions or leading presentations, I have had countless opportunities to demonstrate my skills, and I am eager to share this proficiency with others as a tutor.\n\nFor me, education is more than just a means to an end; it is a transformative journey towards becoming a better person. I firmly believe that education is essential for everyone, as it equips individuals with the tools necessary to navigate the complexities of life. It opens doors to opportunities, fosters critical thinking, and cultivates a sense of responsibility towards oneself and the community.\n\nCurrently, I am attending Hope Enterprise University College. My college experience has presented its own set of challenges, particularly the distance I must travel from my home. This journey can be arduous, but it has taught me resilience and the value of commitment. Each challenge has also presented opportunities for growth, pushing me to adapt and find balance in my academic and personal life.\n\nAs I continue my educational path, I envision myself making a significant impact in the lives of others, particularly young learners. I have a profound desire to help children, who possess a unique purity and openness to new ideas. By tutoring, I aim to inspire them to achieve better grades and develop a deeper understanding of their subjects. I believe that even small changes can lead to significant transformations, and I am dedicated to being a catalyst for that change.\n\nBased on a learning style assessment I took, I am identified as an auditory learner, with a score of 45% in auditory learning. This means I grasp information best through hearing. I find spoken instructions clearer than written ones and often read aloud to enhance my understanding. This auditory strength allows me to absorb and retain information effectively, and I plan to incorporate this approach into my tutoring methods.\n\n",
+      "hobby": "Reading self developing books and drawing ",
+      "profilePicture": "https://firebasestorage.googleapis.com/v0/b/profile-img-temaribet.appspot.com/o/1726949487463IMG_20240301_085504_414.jpg?alt=media&token=673259d0-8217-4d6b-9c50-2df73b91d130",
+      "hiredJobId": null,
+      "jobIDs": [],
+      "studentIds": ["670498097a323b5dc24accf7"],
+      "role": "TUTOR",
+      "status": "SUCCESS",
+      "userId": "66ef28861e511c09106b61a4"
+    },
+    "parent": {
+      "id": "670498077a323b5dc24accf6",
+      "fullName": "Hanan",
+      "email": null,
+      "phone1": "091 189 4999",
+      "phone2": "...",
+      "location": "Anfo",
+      "preferredBank": "",
+      "profilePicture": null,
+      "role": "PARENT",
+      "status": "SUCCESS",
+      "userId": null
+    }
+  }
+}

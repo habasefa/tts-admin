@@ -259,6 +259,6 @@ const renderSubjectsTable = (subjects) => (
   </TableContainer>
 );
 
-ReportDetail.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+ReportDetail.getLayout = (page) => <>{page}</>;
 
 export default ReportDetail;

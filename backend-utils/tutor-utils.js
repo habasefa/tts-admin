@@ -41,7 +41,7 @@ const createTutorFollowup = async (token, parentBody) => {
       ...parentBody,
     }),
   });
-  console.log(response)
+  console.log(response);
   return response;
 };
 const getATutorwithLocation = async (token, location) => {
@@ -55,9 +55,8 @@ const getATutorwithLocation = async (token, location) => {
   return response;
 };
 
-
 const getATutor = async (token, id) => {
-  console.log(id)
+  console.log(id);
   const response = await fetch(`${API_URL}api/v1/tutor/${id}`, {
     method: "GET",
     headers: {
@@ -69,6 +68,7 @@ const getATutor = async (token, id) => {
 };
 
 const updateTutor = async (token, id, status) => {
+  console.log(id, status);
   const response = await fetch(`${API_URL}api/v1/tutor/${id}`, {
     method: "PATCH",
     headers: {
@@ -76,7 +76,7 @@ const updateTutor = async (token, id, status) => {
       authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
-     ... status
+      status,
     }),
   });
   return response;
@@ -93,62 +93,67 @@ const deleteTutor = async (token, id) => {
   return response;
 };
 
-const fetchTimesheet = async(token)=>{
+const fetchTimesheet = async (token) => {
   const response = await fetch(`${API_URL}api/v1/tutor/fetchTimeSheet`, {
-    method:"GET",
-    headers :{
+    method: "GET",
+    headers: {
       "Content-Type": "application/json",
-      authorization : `Bearer ${token}` ,
+      authorization: `Bearer ${token}`,
     },
   });
   return response;
-}
-const getTimeSheetsBasedOnMonth = async (token,year)=>{
-  
-  const response = await fetch (`${API_URL}api/v1/tutor/fetchImage/${year}`,{
-    method:"GET",
-    headers :{
-      "Content-Type":"application/json",
+};
+const getTimeSheetsBasedOnMonth = async (token, year) => {
+  const response = await fetch(`${API_URL}api/v1/tutor/fetchImage/${year}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
       authorization: `Bearer ${token}`,
-    }
-  }
-  );
-  console.log(response,"backend", year)
+    },
+  });
+  console.log(response, "backend", year);
 
   return response;
+};
+const UpdateAnImage = async (token, id, imageBody) => {
+  console.log(imageBody);
 
-}
-const UpdateAnImage = async (token,id,imageBody)=>{
-  console.log(imageBody)
-  
   const response = await fetch(`${API_URL}api/v1/tutor/image/${id}`, {
     method: "PATCH",
-    headers :{
+    headers: {
       "Content-Type": "application/json",
       authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({ ...imageBody }),
-    
-
-  })
-  console.log(response)
+  });
+  console.log(response);
   return response;
-}
-const UpdateAnImageWithAMessage = async (token,id,imageBody)=>{
-  console.log(imageBody)
-  
+};
+const UpdateAnImageWithAMessage = async (token, id, imageBody) => {
+  console.log(imageBody);
+
   const response = await fetch(`${API_URL}api/v1/tutor/imagestatus/${id}`, {
     method: "PATCH",
-    headers :{
+    headers: {
       "Content-Type": "application/json",
       authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({ ...imageBody }),
-    
-
-  })
-  console.log(response)
+  });
+  console.log(response);
   return response;
-}
+};
 
-export { getTutors, updateTutor, deleteTutor, getATutor ,getATutorwithLocation,getPendingTutors,getTimeSheetsBasedOnMonth, UpdateAnImage, getAllTutors,UpdateAnImageWithAMessage , createTutorFollowup};
+export {
+  getTutors,
+  updateTutor,
+  deleteTutor,
+  getATutor,
+  getATutorwithLocation,
+  getPendingTutors,
+  getTimeSheetsBasedOnMonth,
+  UpdateAnImage,
+  getAllTutors,
+  UpdateAnImageWithAMessage,
+  createTutorFollowup,
+};

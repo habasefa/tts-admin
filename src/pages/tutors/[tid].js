@@ -1,5 +1,14 @@
 import Head from "next/head";
-import { Box, Card, CardContent, Container, Grid, Typography ,IconButton} from "@mui/material";
+import {
+  Box,
+  Card,
+  Button,
+  CardContent,
+  Container,
+  Grid,
+  Typography,
+  IconButton,
+} from "@mui/material";
 
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
@@ -9,9 +18,9 @@ import { TutorProfile } from "src/components/customer/tutor-account";
 import { DashboardLayout } from "src/components/dashboard-layout";
 import { selectUser } from "redux/userSlice";
 import moment from "moment";
-import AddTaskRoundedIcon from '@mui/icons-material/AddTaskRounded';
-import Backdrop from '@mui/material/Backdrop'
-import CircularProgress from '@mui/material/CircularProgress'
+import AddTaskRoundedIcon from "@mui/icons-material/AddTaskRounded";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 import { updateTutor } from "backend-utils/tutor-utils";
 
 const TutorDetail = () => {
@@ -20,7 +29,7 @@ const TutorDetail = () => {
   const { tid } = router.query;
   const [tutorData, setTutorData] = useState(null);
   const [err, setErr] = useState("");
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
   if (user) {
     var token = user.accessToken;
   }
@@ -37,43 +46,37 @@ const TutorDetail = () => {
       .catch((err) => {
         setErr("Something went wrong");
       })
-      .finally(()=>{
-       
-        setIsLoading(false)
+      .finally(() => {
+        setIsLoading(false);
       });
   }, [tid]);
-  const changeStatus =(id)=>{
-    setIsLoading(true)
-    updateTutor(token,id, 1,"SUCCESS")
+  const changeStatus = (id) => {
+    setIsLoading(true);
+    updateTutor(token, id, "SUCCESS")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data)
+        console.log(data);
         if (data.success) {
-          console.log(data)
+          console.log(data);
           setTutorData(data.user);
-          
         } else {
           setErr(data.message);
         }
-        
       })
       .catch((_) => {
         setErr("Something went wrong");
-        
       })
-      .finally(()=>{
-       
-        setIsLoading(false)
-      })
-      
-  }
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
   return (
     <>
       <Head>
         <title>Account | Temaribet</title>
       </Head>
       <Backdrop
-         sx={{ color: '#fff', backgroundColor: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        sx={{ color: "#fff", backgroundColor: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={isLoading}
       >
         <CircularProgress color="info" />
@@ -96,23 +99,22 @@ const TutorDetail = () => {
             <Grid item lg={8} md={6} xs={12}>
               <Card>
                 <CardContent>
-                <Grid item lg={12} md={12} xs={12}>
-                  <Box
-                    sx={{
-                      alignItems: "center",
-                      display: "flex",
-                      flexDirection: "column",
-                      
-                    }}
-                    minHeight={300}
-                  >
-                    <Typography color="textPrimary" gutterBottom variant="h5">
-                      Essay
-                    </Typography>
-                    <Typography color="textSecondary" variant="body2">
-                      {tutorData?.essay}
-                    </Typography>
-                  </Box>
+                  <Grid item lg={12} md={12} xs={12}>
+                    <Box
+                      sx={{
+                        alignItems: "center",
+                        display: "flex",
+                        flexDirection: "column",
+                      }}
+                      minHeight={300}
+                    >
+                      <Typography color="textPrimary" gutterBottom variant="h5">
+                        Essay
+                      </Typography>
+                      <Typography color="textSecondary" variant="body2">
+                        {tutorData?.essay}
+                      </Typography>
+                    </Box>
                   </Grid>
                 </CardContent>
               </Card>
@@ -169,9 +171,9 @@ const TutorDetail = () => {
               </Card> */}
             </Grid>
           </Grid>
-          <Grid container mt={2} spacing={3} >
-            <Grid  item lg={6} md={6} xs={12}  >
-          <Card>
+          <Grid container mt={2} spacing={3}>
+            <Grid item lg={6} md={6} xs={12}>
+              <Card>
                 <CardContent>
                   <Box
                     sx={{
@@ -193,9 +195,9 @@ const TutorDetail = () => {
                   </Box>
                 </CardContent>
               </Card>
-              </Grid>
-              <Grid minHeight={150}  item lg={6} md={6} xs={12}  >
-              <Card >
+            </Grid>
+            <Grid minHeight={150} item lg={6} md={6} xs={12}>
+              <Card>
                 <CardContent>
                   <Box
                     sx={{
@@ -226,13 +228,13 @@ const TutorDetail = () => {
                   </Box>
                 </CardContent>
               </Card>
-              </Grid>
+            </Grid>
           </Grid>
           {/* <Typography sx={{ mb: 3 }} variant="h4">
             Reports
           </Typography>
           <Grid container spacing={3}> */}
-            {/* {tutorData?.reports.map((report, index) => {
+          {/* {tutorData?.reports.map((report, index) => {
               return (
                 <Grid item lg={6} md={6} xs={12} key={index}>
                   <Card>
@@ -318,11 +320,23 @@ const TutorDetail = () => {
                   </Card>
                 </Grid>
               ); */}
-            {/* })} */}
+          {/* })} */}
           {/* </Grid> */}
-         
-         
         </Container>
+        <div className="flex mt-3 justify-evenly">
+          {tutorData?.status === "PENDING" && (
+            <Button
+              variant="contained"
+              color="success"
+              onClick={() => {
+                changeStatus(tid);
+                router.push("/tutors/");
+              }}
+            >
+              Accept
+            </Button>
+          )}
+        </div>
       </Box>
     </>
   );

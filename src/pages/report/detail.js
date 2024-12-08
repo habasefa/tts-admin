@@ -55,7 +55,7 @@ const ReportDetail = () => {
   const [reportList, setReportList] = useState([]);
   const [report, setReportDetail] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [commentD, setCommentD] =  useState({});
+  const [commentD, setCommentD] = useState({});
   if (tutorId == undefined || year == undefined || month == null || week == null) {
     router.push("/reports");
   }
@@ -66,9 +66,9 @@ const ReportDetail = () => {
   const handleRatingChange = (id, value) => {
     setRatings({ ...ratings, [id]: value }); // update the rating for the object with the given id
   };
-  const handleCommentChange = (id,value)=>{
-    setCommentD({...commentD,[id]:value})
-  }
+  const handleCommentChange = (id, value) => {
+    setCommentD({ ...commentD, [id]: value });
+  };
   if (user) {
     var token = user.accessToken;
   }
@@ -79,7 +79,7 @@ const ReportDetail = () => {
       .then((data) => {
         console.log(data);
         if (data.success) {
-          console.log(data);
+          // console.log(data);
           setReportList(data.reports);
           setReportDetail(data.user);
           console.log(data.user.reports.inputFields);
@@ -96,14 +96,15 @@ const ReportDetail = () => {
   useEffect(() => {
     // initialize the ratings object with default values of -1 for each object
     const defaultRatings = {};
-    const defaultComment ={}
+    const defaultComment = {};
     reportList.forEach((object, index) => {
       defaultRatings[index] = -1;
-      defaultComment[index] ="";
+      defaultComment[index] = "";
     });
     setRatings(defaultRatings);
     setCommentD(defaultComment);
   }, [reportList]);
+  // console.log(reportList);
   const monthNames = [
     "January",
     "February",
@@ -171,11 +172,11 @@ const ReportDetail = () => {
                           </TableRow>
                         </TableHead>
                         <TableBody>
-                          { report?.reports?.inputFields?.map((item, index) => (
+                          {report?.reports?.inputFields?.map((item, index) => (
                             <Box key={index} component="main" boxShadow={1}>
                               <TableRow key={index}>
                                 <TableCell>{item.name}</TableCell>
-                                <TableCell style={{ width: '100%' }} >
+                                <TableCell style={{ width: "100%" }}>
                                   <Typography variant="subtitle1">On the Content</Typography>
                                   {renderSubjectsTable(item.subjects)}
                                   <br></br>
@@ -255,97 +256,100 @@ const ReportDetail = () => {
               </Card>
 
               {!report?.comment && (
-  <>
-    <InputLabel id="demo-select-small">Comment</InputLabel>
-    <TextField
-     
-      required={true}
-      margin="normal"
-      multiline
-      rows={4}
-      value={commentD[index]}
-      onChange={(event) => handleCommentChange(index, event.target.value)}
-      error={commentD[index] === "" || commentD[index] === null }
-      helperText={commentD[index] === "" || commentD[index] === null && "Please fill out this field"}
-    />
-  </>
-)}
-{report?.status == "PENDING" && (
-  <Box marginTop={2}>
-    <Typography component="legend">Rate the Report </Typography>
-    <Rating
-      name="simple-controlled"
-      color="primary"
-      value={ratings[index] || 0}
-      onChange={(event, newValue) => handleRatingChange(index, newValue)}
-    />
-  </Box>
-)}
+                <>
+                  <InputLabel id="demo-select-small">Comment</InputLabel>
+                  <TextField
+                    required={true}
+                    margin="normal"
+                    multiline
+                    rows={4}
+                    value={commentD[index]}
+                    onChange={(event) => handleCommentChange(index, event.target.value)}
+                    error={commentD[index] === "" || commentD[index] === null}
+                    helperText={
+                      commentD[index] === "" ||
+                      (commentD[index] === null && "Please fill out this field")
+                    }
+                  />
+                </>
+              )}
+              {report?.status == "PENDING" && (
+                <Box marginTop={2}>
+                  <Typography component="legend">Rate the Report </Typography>
+                  <Rating
+                    name="simple-controlled"
+                    color="primary"
+                    value={ratings[index] || 0}
+                    onChange={(event, newValue) => handleRatingChange(index, newValue)}
+                  />
+                </Box>
+              )}
 
-{report?.status == "PENDING" && (
-  <Stack direction="row" spacing={2}>
-    <Button
-      variant="contained"
-      color="success"
-      disabled={commentD[index] === "" || commentD[index] ===null}
-      onClick={async () => {
-        if (commentD !== "") {
-          console.log(commentD[index])
-          report.status = "SUCCESS";
+              {report?.status == "PENDING" && (
+                <Stack direction="row" spacing={2}>
+                  <Button
+                    variant="contained"
+                    color="success"
+                    disabled={commentD[index] === "" || commentD[index] === null}
+                    onClick={async () => {
+                      if (commentD !== "") {
+                        console.log(commentD[index]);
+                        report.status = "SUCCESS";
 
-          await UpdateAReport(token, report?.id, { status: "SUCCESS",
-          rate: ratings[index],   comment: commentD[index] });
-          
-          router.reload()
-        
+                        await UpdateAReport(token, report?.id, {
+                          status: "SUCCESS",
+                          rate: ratings[index],
+                          comment: commentD[index],
+                        });
 
-        
-        } else {
-          setSubmitted(true);
-        }
-      }}
-    >
-      Accept
-    </Button>
+                        router.reload();
+                      } else {
+                        setSubmitted(true);
+                      }
+                    }}
+                  >
+                    Accept
+                  </Button>
 
-    <Button
-      variant="contained"
-      color="error"
-      disabled={ratings[index] == -1 || commentD === "" || commentD ===null}
-      onClick={async () => {
-        if (commentD !== "") {
-          console.log(commentD[index])
-          report.status = "REJECTED";
+                  <Button
+                    variant="contained"
+                    color="error"
+                    disabled={ratings[index] == -1 || commentD === "" || commentD === null}
+                    onClick={async () => {
+                      if (commentD !== "") {
+                        console.log(commentD[index]);
+                        report.status = "REJECTED";
 
-          await UpdateAReport(token, report?.id, { status: "REJECTED",
-          rate: ratings[index],   comment: commentD[index] });
-          
-          router.reload()
-        
+                        await UpdateAReport(token, report?.id, {
+                          status: "REJECTED",
+                          rate: ratings[index],
+                          comment: commentD[index],
+                        });
 
-        
-        } else {
-          setSubmitted(true);
-        }
-      }}
-    >
-      Reject
-    </Button>
-  </Stack>
-)}
-              {report?.comment && <><InputLabel id="demo-select-small">Comment</InputLabel>
-    <TextField
-      
-      disabled
-      margin="normal"
-      multiline
-      rows={4}
-      value={report?.comment}
-    
-    /> </>}
+                        router.reload();
+                      } else {
+                        setSubmitted(true);
+                      }
+                    }}
+                  >
+                    Reject
+                  </Button>
+                </Stack>
+              )}
+              {report?.comment && (
+                <>
+                  <InputLabel id="demo-select-small">Comment</InputLabel>
+                  <TextField
+                    disabled
+                    margin="normal"
+                    multiline
+                    rows={4}
+                    value={report?.comment}
+                  />{" "}
+                </>
+              )}
               {report?.status == "REJECTED" && <Alert severity="warning">Rejected</Alert>}
               {report?.status == "SUCCESS" && <Alert severity="success">Accepted</Alert>}
-             
             </Grid>
           </>
         );
@@ -370,8 +374,8 @@ const renderAssessmentsTable = (assessments) => (
           assessment.units.map((unit, index1) =>
             unit.types.map((type, index) => (
               <TableRow key={index}>
-                <TableCell>{index1 == 0 && index ==0  &&assessment.assesment}</TableCell>
-                <TableCell>{index ==0 &&  unit.unit}</TableCell>
+                <TableCell>{index1 == 0 && index == 0 && assessment.assesment}</TableCell>
+                <TableCell>{index == 0 && unit.unit}</TableCell>
                 <TableCell>{type.type}</TableCell>
                 <TableCell>{type.result}</TableCell>
               </TableRow>
@@ -399,8 +403,8 @@ const renderSubjectsTable = (subjects) => (
           subject.chapters.map((chapter, index1) =>
             chapter.topics.map((topic, index) => (
               <TableRow key={index}>
-                <TableCell>{index1 == 0 && index ==0  && subject.subject}</TableCell>
-                <TableCell>{index ==0 && chapter.chapter}</TableCell>
+                <TableCell>{index1 == 0 && index == 0 && subject.subject}</TableCell>
+                <TableCell>{index == 0 && chapter.chapter}</TableCell>
                 <TableCell>{topic.topic}</TableCell>
                 <TableCell>{topic.understanding}</TableCell>
               </TableRow>

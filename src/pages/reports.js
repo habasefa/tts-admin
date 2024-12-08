@@ -263,9 +263,8 @@ const Reports = () => {
   if (!user) router.push("/login");
   useEffect(() => {
     let d = new Date();
-    // let month = d.getMonth() + 1;
-    let month = 12;
-    let year = 2024;
+    let month = d.getMonth() + 1;
+    let year = d.getFullYear();
 
     getReportsBasedOnWeek(user.accessToken, year, month)
       .then((res) => res.json())
@@ -302,8 +301,9 @@ const Reports = () => {
     getReportsBasedOnWeek(user.accessToken, year, month)
       .then((res) => res.json())
       .then((data) => {
+        console.log("data", data);
         if (data.success) {
-          console.log(data.reports, "data success");
+          console.log("report", data.reports);
           setReports(data.reports);
           return data.reports;
         } else {

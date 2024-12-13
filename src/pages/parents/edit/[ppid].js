@@ -55,7 +55,7 @@ const StudentRegistrationEdit = () => {
   const router = useRouter();
   const user = useSelector(selectUser);
   const [cost, setconst] = useState(0);
- 
+
   const { ppid } = router.query;
 
   const locations = [
@@ -95,17 +95,15 @@ const StudentRegistrationEdit = () => {
     "Other Social Studies",
     "Foreign Languages (Spanish, French, German, etc.)",
     "Test Preparation (SAT, ACT, etc.)",
-   
   ];
   const [isLoading, setIsLoading] = useState(false);
-  const [isPageLoading,setIsPageLoading] = useState(true);
+  const [isPageLoading, setIsPageLoading] = useState(true);
   const [open, setOpen] = React.useState(false);
   const handleClose = () => {
     setOpen(false);
-    router.push("/parents/profile/"+parentId);
+    router.push("/parents/profile/" + parentId);
   };
-  const [studnets, setStudentField] = useState([
-  ]);
+  const [studnets, setStudentField] = useState([]);
   const addStudent = () => {
     event.preventDefault();
     let data = [...studnets];
@@ -123,7 +121,7 @@ const StudentRegistrationEdit = () => {
     setStudentField(data);
   };
   const [err, setErr] = useState("");
-  const [parentId ,setParentId] = useState(null);
+  const [parentId, setParentId] = useState(null);
   const handleStudentField = (event, index) => {
     let data = [...studnets];
     console.log(data);
@@ -186,6 +184,7 @@ const StudentRegistrationEdit = () => {
       phoneNumber1: "",
       phoneNumber2: "",
       Address: "",
+      telegramUsername: "",
     },
 
     validationSchema: Yup.object({
@@ -205,33 +204,32 @@ const StudentRegistrationEdit = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
-            formik.values.parentName = data?.user?.fullName;
-            formik.values.Address = data?.user?.location,
-            formik.values.phoneNumber1 = data?.user?.phone1;
-            formik.values.phoneNumber2 =data?.user?.phone2;
-            setParentId(data.user.id);
-            const std =[]
-            console.log(data.user.students)
-            
-            data.user?.students.map((val)=>{
-                console.log(val)
-                
-                std.push(
-                    {
-                        studentId : val.id,
-                        studentName: val.fullName,
-                        age: val.age,
-                        gender: val.gender,
-                        grade: val.grade,
-                        schoolName: val.school,
-                        workDays: val.workDays,
-                        workHour: val.workHour,
-                        subjects: val.subjects,
-                      },
-                )
-            })
-            console.log(std)
-            setStudentField(std);
+          formik.values.parentName = data?.user?.fullName;
+          (formik.values.Address = data?.user?.location),
+            (formik.values.phoneNumber1 = data?.user?.phone1);
+          formik.values.phoneNumber2 = data?.user?.phone2;
+          formik.values.telegramUsername = data?.user?.telegramUsername;
+          setParentId(data.user.id);
+          const std = [];
+          console.log(data.user.students);
+
+          data.user?.students.map((val) => {
+            console.log(val);
+
+            std.push({
+              studentId: val.id,
+              studentName: val.fullName,
+              age: val.age,
+              gender: val.gender,
+              grade: val.grade,
+              schoolName: val.school,
+              workDays: val.workDays,
+              workHour: val.workHour,
+              subjects: val.subjects,
+            });
+          });
+          console.log(std);
+          setStudentField(std);
         } else {
           setErr(data.message);
         }
@@ -246,26 +244,24 @@ const StudentRegistrationEdit = () => {
       });
   }, [ppid]);
 
-
-
-  const createStudentParent = () => {
+  const createStudentParent = (event) => {
     setIsLoading(true);
-    
-    event.preventDefault();
-    console.log(formik)
-    console.log(studnets)
-    updateParent(user.accessToken,parentId,{fullName: formik.values.parentName,
-          location: formik.values.Address,
-          phone1: formik.values.phoneNumber1,
-          phone2: formik.values.phoneNumber2,
-        
-        })
-    .then((data)=>{
-        console.log(data)
-        studnets.map((val)=>{
-            updateStudentInGeneral(user.accessToken,val.studentId,{
 
-                fullName: val.studentName,
+    event.preventDefault();
+    console.log(formik);
+    console.log(studnets);
+    updateParent(user.accessToken, parentId, {
+      fullName: formik.values.parentName,
+      location: formik.values.Address,
+      phone1: formik.values.phoneNumber1,
+      phone2: formik.values.phoneNumber2,
+      telegramUsername: formik.values.telegramUsername,
+    })
+      .then((data) => {
+        console.log("updated data", data);
+        studnets.map((val) => {
+          updateStudentInGeneral(user.accessToken, val.studentId, {
+            fullName: val.studentName,
             gender: val.gender,
             address: formik.values.Address,
             age: parseInt(val.age),
@@ -273,20 +269,19 @@ const StudentRegistrationEdit = () => {
             school: val.schoolName,
             subjects: val.subjects,
             workDays: parseInt(val.workDays),
-        workHour: parseInt(val.workHour),
+            workHour: parseInt(val.workHour),
+          })
+            .then((res) => res.json())
+            .then((result) => {
+              console.log("Student data", result);
             })
-            .then((res)=>res.json())
-            .then((result)=>{
-                console.log(result)
-            })
-            .catch((err) => console.log(err.error.message))
-            .finally(() => {
-              setIsLoading(false);
-              setOpen(true);
-            });
-        })
-    })
-
+            .catch((err) => console.log(err.error.message));
+        });
+      })
+      .finally(() => {
+        setIsLoading(false);
+        setOpen(true);
+      });
 
     // createParent(user.accessToken, {
     //   fullName: formik.values.parentName,
@@ -336,7 +331,7 @@ const StudentRegistrationEdit = () => {
 
   return (
     <div>
-        <Backdrop
+      <Backdrop
         sx={{ color: "#fff", backgroundColor: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={isPageLoading}
       >
@@ -403,7 +398,7 @@ const StudentRegistrationEdit = () => {
               <Grid item xs={16} md={8} lg={3}>
                 <InputLabel id="demo-select-small">Phone Number 2</InputLabel>
                 <TextField
-                  required
+                  // required
                   error={Boolean(formik.touched.phoneNumber2 && formik.errors.phoneNumber2)}
                   fullWidth
                   helperText={formik.touched.phoneNumber2 && formik.errors.phoneNumber2}
@@ -430,11 +425,11 @@ const StudentRegistrationEdit = () => {
                   options={locations}
                   value={formik.values.Address}
                   onChange={(event, newValue) => {
-                    console.log(newValue)
+                    console.log(newValue);
                     formik.setFieldValue("Address", newValue);
                   }}
                   onInputChange={(event, newInputValue) => {
-                    console.log(newInputValue)
+                    console.log(newInputValue);
                     formik.setFieldValue("Address", newInputValue);
                   }}
                   renderInput={(params) => (
@@ -449,6 +444,19 @@ const StudentRegistrationEdit = () => {
                       helperText={formik.touched.Address && formik.errors.Address}
                     />
                   )}
+                />
+              </Grid>
+              <Grid item xs={16} md={8} lg={3}>
+                <InputLabel id="demo-select-small">Telegram Username</InputLabel>
+                <TextField
+                  error={Boolean(formik.touched.telegramUsername && formik.errors.telegramUsername)}
+                  fullWidth
+                  placeholder="@username"
+                  helperText={formik.touched.telegramUsername && formik.errors.telegramUsername}
+                  margin="normal"
+                  name="telegramUsername"
+                  onChange={formik.handleChange}
+                  value={formik.values.telegramUsername}
                 />
               </Grid>
             </Grid>
@@ -692,7 +700,7 @@ const StudentRegistrationEdit = () => {
             <Grid container p={2} rowSpacing={1} spacing={2} columnSpacing={2}>
               <Grid item xs={16} md={8}>
                 <InputLabel id="demo-select-small">Anything you want to Add</InputLabel>
-                <TextField margin="normal" multiline required fullWidth rows={4} xs={16} md={8} />
+                <TextField margin="normal" multiline fullWidth rows={4} xs={16} md={8} />
               </Grid>
             </Grid>
             {/* <Button

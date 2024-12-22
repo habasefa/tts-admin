@@ -12,10 +12,16 @@ Below is a screenshot of the homepage of Temaribet:
 
 ## Tech Stack
 
-- **Frontend Framework**: [Next.js](https://nextjs.org/)
-- **Styling**: [TailwindCSS](https://tailwindcss.com/)
-<!-- - **Database**: [Firebase](https://firebase.google.com/) -->
-- **State Management**: [Redux](https://redux.js.org/)
+- **Frontend Framework**: [React](https://reactjs.org/) and [Next.js](https://nextjs.org/)
+- **UI Framework**: [Material-UI](https://mui.com/) (`@mui/material`, `@mui/icons-material`, `@mui/lab`, `@mui/styles`)
+- **State Management**: [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/), [React-Redux](https://react-redux.js.org/), [Redux Persist](https://github.com/rt2zz/redux-persist)
+- **Form Handling**: [Formik](https://formik.org/) and [Yup](https://github.com/jquense/yup)
+- **Routing**: [React Router](https://reactrouter.com/) and [History](https://github.com/ReactTraining/history)
+- **Charts**: [Chart.js](https://www.chartjs.org/) and [React-Chartjs-2](https://github.com/reactchartjs/react-chart.js)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/), [PostCSS](https://postcss.org/), [Emotion](https://emotion.sh/docs/introduction)
+- **Utilities**: [date-fns](https://date-fns.org/), [moment](https://momentjs.com/), [uuid](https://github.com/uuidjs/uuid), [jwt-decode](https://github.com/jwt-decode/jwt-decode)
+- **Development Tools**: [ESLint](https://eslint.org/), [NProgress](https://github.com/rstacruz/nprogress), [React Perfect Scrollbar](https://github.com/utsuboco/react-perfect-scrollbar)
+- **Email Services**: [EmailJS](https://www.emailjs.com/)
 
 ---
 
@@ -61,7 +67,7 @@ Below is a screenshot of the homepage of Temaribet:
 2. **Navigate to the project directory**:
 
    ```bash
-   cd tts
+   cd tts-admin
    ```
 
 3. **Install dependencies**:

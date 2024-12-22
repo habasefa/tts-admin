@@ -1,28 +1,4 @@
-import Head from "next/head";
-import {
-  Select,
-  Avatar,
-  Box,
-  Button,
-  TextField,
-  Card,
-  CardActions,
-  Container,
-  Divider,
-  Grid,
-  Stack,
-  Typography,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Alert,
-  CardHeader,
-  CardContent,
-  Chip,
-  InputLabel,
-} from "@mui/material";
+import { Box, Card, Grid, Typography, CardContent, Chip, InputLabel } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -33,56 +9,31 @@ import Paper from "@mui/material/Paper";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 
-import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 
 import React, { useEffect, useState } from "react";
-import { getATutor, getATutorwithLocation, getTutors } from "backend-utils/tutor-utils";
-import moment from "moment";
-import { getAParent } from "backend-utils/parent-utils";
+import { getViewReport } from "backend-utils/report-utils";
 import { DashboardLayout } from "src/components/dashboard-layout";
-import { selectUser } from "redux/userSlice";
-import { getAStudent, updateStudent } from "backend-utils/student-utils";
-import { getAReport, UpdateAReport, getAReportWithSpecificWeek } from "backend-utils/report-utils";
-import Reports from "../reports";
-import Rating from "@mui/material/Rating";
 
 const ReportDetail = () => {
-  const user = useSelector(selectUser);
   const router = useRouter();
-  const { tutorId, year, month, week } = router.query;
-  const [value, setValue] = useState(-1);
+  // console.log("token", token);
   const [reportList, setReportList] = useState([]);
-  const [report, setReportDetail] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [commentD, setCommentD] = useState({});
-  if (tutorId == undefined || year == undefined || month == null || week == null) {
-    router.push("/reports");
-  }
 
   const [err, setErr] = useState("");
-  const [ratings, setRatings] = useState({}); // state to store the ratings for each object
 
-  const handleRatingChange = (id, value) => {
-    setRatings({ ...ratings, [id]: value }); // update the rating for the object with the given id
-  };
-  const handleCommentChange = (id, value) => {
-    setCommentD({ ...commentD, [id]: value });
-  };
-  if (user) {
-    var token = user.accessToken;
-  }
+  const { token } = router.query;
   useEffect(() => {
-    console.log(tutorId, year, month, week);
-    getAReportWithSpecificWeek(token, tutorId, year, month, week)
+    console.log("index", token);
+    getViewReport(token)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
         if (data.success) {
-          // console.log(data);
-          setReportList(data.reports);
-          setReportDetail(data.user);
-          console.log(data.user.reports.inputFields);
+          console.log(data);
+          setReportList([data.report]);
+          console.log({ reportList, data: data.report });
         } else {
           setErr(data.message);
         }
@@ -91,20 +42,8 @@ const ReportDetail = () => {
         setErr("Something went Wrong");
       })
       .finally(() => setIsLoading(false));
-  }, []);
+  }, [token]);
 
-  useEffect(() => {
-    // initialize the ratings object with default values of -1 for each object
-    const defaultRatings = {};
-    const defaultComment = {};
-    reportList.forEach((object, index) => {
-      defaultRatings[index] = -1;
-      defaultComment[index] = "";
-    });
-    setRatings(defaultRatings);
-    setCommentD(defaultComment);
-  }, [reportList]);
-  // console.log(reportList);
   const monthNames = [
     "January",
     "February",
@@ -119,7 +58,7 @@ const ReportDetail = () => {
     "November",
     "December",
   ];
-
+  // console.log(reportList);
   return (
     <div>
       <Backdrop
@@ -254,102 +193,6 @@ const ReportDetail = () => {
                   </Grid>
                 </CardContent>
               </Card>
-
-              {!report?.comment && (
-                <>
-                  <InputLabel id="demo-select-small">Comment</InputLabel>
-                  <TextField
-                    required={true}
-                    margin="normal"
-                    multiline
-                    rows={4}
-                    value={commentD[index]}
-                    onChange={(event) => handleCommentChange(index, event.target.value)}
-                    error={commentD[index] === "" || commentD[index] === null}
-                    helperText={
-                      commentD[index] === "" ||
-                      (commentD[index] === null && "Please fill out this field")
-                    }
-                  />
-                </>
-              )}
-              {report?.status == "PENDING" && (
-                <Box marginTop={2}>
-                  <Typography component="legend">Rate the Report </Typography>
-                  <Rating
-                    name="simple-controlled"
-                    color="primary"
-                    value={ratings[index] || 0}
-                    onChange={(event, newValue) => handleRatingChange(index, newValue)}
-                  />
-                </Box>
-              )}
-
-              {report?.status == "PENDING" && (
-                <Stack direction="row" spacing={2}>
-                  <Button
-                    variant="contained"
-                    color="success"
-                    disabled={commentD[index] === "" || commentD[index] === null}
-                    onClick={async () => {
-                      if (commentD !== "") {
-                        console.log(commentD[index]);
-                        report.status = "SUCCESS";
-
-                        await UpdateAReport(token, report?.id, {
-                          status: "SUCCESS",
-                          rate: ratings[index],
-                          comment: commentD[index],
-                        });
-
-                        router.reload();
-                      } else {
-                        setSubmitted(true);
-                      }
-                    }}
-                  >
-                    Accept
-                  </Button>
-
-                  <Button
-                    variant="contained"
-                    color="error"
-                    disabled={ratings[index] == -1 || commentD === "" || commentD === null}
-                    onClick={async () => {
-                      if (commentD !== "") {
-                        console.log(commentD[index]);
-                        report.status = "REJECTED";
-
-                        await UpdateAReport(token, report?.id, {
-                          status: "REJECTED",
-                          rate: ratings[index],
-                          comment: commentD[index],
-                        });
-
-                        router.reload();
-                      } else {
-                        setSubmitted(true);
-                      }
-                    }}
-                  >
-                    Reject
-                  </Button>
-                </Stack>
-              )}
-              {report?.comment && (
-                <>
-                  <InputLabel id="demo-select-small">Comment</InputLabel>
-                  <TextField
-                    disabled
-                    margin="normal"
-                    multiline
-                    rows={4}
-                    value={report?.comment}
-                  />{" "}
-                </>
-              )}
-              {report?.status == "REJECTED" && <Alert severity="warning">Rejected</Alert>}
-              {report?.status == "SUCCESS" && <Alert severity="success">Accepted</Alert>}
             </Grid>
           </>
         );
@@ -416,6 +259,6 @@ const renderSubjectsTable = (subjects) => (
   </TableContainer>
 );
 
-ReportDetail.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+ReportDetail.getLayout = (page) => <>{page}</>;
 
 export default ReportDetail;

@@ -58,6 +58,7 @@ import { data } from "autoprefixer";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import MailIcon from "@mui/icons-material/Mail";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
 const Reports = () => {
   const [value, setValue] = useState(0);
@@ -87,7 +88,7 @@ const Reports = () => {
   const [statusReport, setStatusReport] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [monthNotify, setMonthNotify] = useState([]);
-  const [totalEvery, setTotalEvery]= useState([])
+  const [totalEvery, setTotalEvery] = useState([]);
   const [weekIndex, setWeekIndex] = useState(0);
   const monthName = [
     "Jan",
@@ -147,9 +148,9 @@ const Reports = () => {
   const [pendingCounts, setPendingCounts] = useState({});
   const updatePendingCounts = (report) => {
     const tutorWeekKey = `${report.tutorId}${report.week}`;
-    console.log(tutorWeekKey,"HI find");
+    console.log(tutorWeekKey, "HI find");
     const currentCount = pendingCounts[tutorWeekKey] || 0;
-    const newCount = report.status === 'PENDING' ? currentCount + 1 : currentCount;
+    const newCount = report.status === "PENDING" ? currentCount + 1 : currentCount;
     setPendingCounts({
       ...pendingCounts,
       [tutorWeekKey]: newCount,
@@ -191,7 +192,7 @@ const Reports = () => {
           firstNo = Number(firstNo) + 1;
         }
         updatePendingCounts(report);
-        first_Data.push(report)
+        first_Data.push(report);
       } else if (date >= week?.[1]?.[0] && date <= week?.[1]?.[1]) {
         if (!uniqueTutorIds.includes(report.tutorId + report.week)) {
           uniqueTutorIds.push(report.tutorId + report.week);
@@ -201,7 +202,7 @@ const Reports = () => {
           secondNo = Number(secondNo) + 1;
         }
         updatePendingCounts(report);
-        second_Data.push(report)
+        second_Data.push(report);
       } else if (date >= week?.[2]?.[0] && date <= week?.[2]?.[1]) {
         if (!uniqueTutorIds.includes(report.tutorId + report.week)) {
           uniqueTutorIds.push(report.tutorId + report.week);
@@ -253,7 +254,7 @@ const Reports = () => {
     notifArr.push(fourthNo);
     notifArr.push(fiveNo);
     setTotalWeeks(total);
-    console.log(total,"total");
+    console.log(total, "total");
     setMonthNotify(notifArr);
     setTotalEvery(totals);
     console.log(weeks);
@@ -263,8 +264,7 @@ const Reports = () => {
   useEffect(() => {
     let d = new Date();
     let month = d.getMonth() + 1;
-    let year = 2023;
-   
+    let year = d.getFullYear();
 
     getReportsBasedOnWeek(user.accessToken, year, month)
       .then((res) => res.json())
@@ -301,8 +301,9 @@ const Reports = () => {
     getReportsBasedOnWeek(user.accessToken, year, month)
       .then((res) => res.json())
       .then((data) => {
+        console.log("data", data);
         if (data.success) {
-          console.log(data.reports, "data success");
+          console.log("report", data.reports);
           setReports(data.reports);
           return data.reports;
         } else {
@@ -321,54 +322,41 @@ const Reports = () => {
   useEffect(() => {
     let data = [];
     if (totalEvery.length > 0) {
-      
       const uniqueTutorIds = [];
-      totalEvery[weekIndex].map((report) => 
-        {
-         
-          if (statusReport == 2 && report.status == "SUCCESS") {
-             if (!uniqueTutorIds.includes(report.tutorId)) {
-              data.push(report)
-             
-              uniqueTutorIds.push(report.tutorId);
-             
-            }
-            
-          } else if (statusReport == 3 &&  report.status == "PENDING") {
-            if (!uniqueTutorIds.includes(report.tutorId)) {
-              data.push(report)
-             
-              uniqueTutorIds.push(report.tutorId);
-             
-            }
-          } else if (statusReport == 4 && report.status == "REJECTED") {
-            if (!uniqueTutorIds.includes(report.tutorId)) {
-              data.push(report)
-             
-              uniqueTutorIds.push(report.tutorId);
-             
-            }
+      totalEvery[weekIndex].map((report) => {
+        if (statusReport == 2 && report.status == "SUCCESS") {
+          if (!uniqueTutorIds.includes(report.tutorId)) {
+            data.push(report);
+
+            uniqueTutorIds.push(report.tutorId);
+          }
+        } else if (statusReport == 3 && report.status == "PENDING") {
+          if (!uniqueTutorIds.includes(report.tutorId)) {
+            data.push(report);
+
+            uniqueTutorIds.push(report.tutorId);
+          }
+        } else if (statusReport == 4 && report.status == "REJECTED") {
+          if (!uniqueTutorIds.includes(report.tutorId)) {
+            data.push(report);
+
+            uniqueTutorIds.push(report.tutorId);
           }
         }
-      );
-      
-      if (statusReport !=1){
-        setTempWeeks(data)
-      }
-      else{
-          if (totalWeeks[weekIndex])
-          {
-          setTempWeeks(totalWeeks[weekIndex])
-          }
-      }
+      });
 
-    }},
-        
-  
-   [statusReport]);
-   const countNotification = (tutorId) => {
+      if (statusReport != 1) {
+        setTempWeeks(data);
+      } else {
+        if (totalWeeks[weekIndex]) {
+          setTempWeeks(totalWeeks[weekIndex]);
+        }
+      }
+    }
+  }, [statusReport]);
+  const countNotification = (tutorId) => {
     var count = 0;
-    console.log(tutorId)
+    console.log(tutorId);
     totalEvery[weekIndex]?.map((val) => {
       if (val.tutorId == tutorId) {
         if (val.status == "PENDING") {
@@ -376,7 +364,7 @@ const Reports = () => {
         }
       }
     });
-  
+
     return count;
   };
   const handleLimitChange = (event) => {
@@ -486,14 +474,12 @@ const Reports = () => {
                       </Badge>
                     }
                     label={`${monthName[monthIndex]} ${week[0]} - ${week[1]}`}
-                    onClick={() =>{ 
-
-                      setPage(0)
-                      setLimit(10)
+                    onClick={() => {
+                      setPage(0);
+                      setLimit(10);
                       setWeekIndex(index);
-                      handleOpen(totalWeeks, totalWeeks[index])}
-                    
-                    }
+                      handleOpen(totalWeeks, totalWeeks[index]);
+                    }}
                   ></Tab>
 
                   //   {/* <Button
@@ -518,7 +504,7 @@ const Reports = () => {
               <TableHead>
                 <TableRow>
                   <TableCell>Name</TableCell>
-                 
+
                   <TableCell>Pendings</TableCell>
                   <TableCell align="right">Action</TableCell>
                 </TableRow>
@@ -526,7 +512,7 @@ const Reports = () => {
               <TableBody>
                 {tempWeeks.length > 0 &&
                   tempWeeks
-                  
+
                     .filter((val) => {
                       if (searchTerm == "") {
                         return val;
@@ -534,8 +520,9 @@ const Reports = () => {
                         return val;
                       }
                     })
-                    .slice((limit*page), (limit)*(page+1))
+                    .slice(limit * page, limit * (page + 1))
                     .map((report, index) => {
+                      console.log(report);
                       return (
                         <>
                           <TableRow
@@ -560,9 +547,7 @@ const Reports = () => {
                                 </Typography>
                               </Box>
                             </TableCell>
-                            <TableCell>
-                           { countNotification(report.tutorId) }
-                            </TableCell>
+                            <TableCell>{countNotification(report.tutorId)}</TableCell>
                             {/* <TableCell>
                               {pendingCounts[report.tutorId+report.week]  "SUCCESS" && (
                                 <Chip variant="outlined" label="SUCCESS" color="success" />
@@ -575,6 +560,19 @@ const Reports = () => {
                               )}
                             </TableCell> */}
                             <TableCell align="right">
+                              {/* Copy Button */}
+                              {report.status === "SUCCESS" && (
+                                <IconButton
+                                  color="info"
+                                  aria-label="copy link"
+                                  onClick={() => {
+                                    navigator.clipboard.writeText(report.viewUrl);
+                                    alert("Copied to clipboard!");
+                                  }}
+                                >
+                                  <ContentCopyIcon />
+                                </IconButton>
+                              )}
                               <IconButton
                                 color="info"
                                 aria-label="upload picture"
@@ -606,15 +604,15 @@ const Reports = () => {
               </TableBody>
             </Table>
           </TableContainer>
-      <TablePagination
-        component="div"
-        count={tempWeeks.length}
-        onPageChange={handlePageChange}
-        onRowsPerPageChange={handleLimitChange}
-        page={page}
-        rowsPerPage={limit}
-        rowsPerPageOptions={[5, 10, 25]}
-      />
+          <TablePagination
+            component="div"
+            count={tempWeeks.length}
+            onPageChange={handlePageChange}
+            onRowsPerPageChange={handleLimitChange}
+            page={page}
+            rowsPerPage={limit}
+            rowsPerPageOptions={[5, 10, 25]}
+          />
         </Container>
       </Box>
     </>
